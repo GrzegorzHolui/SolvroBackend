@@ -1,4 +1,4 @@
-package entity;
+package com.solvro.solvrobackend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "basketItem")
 public class BasketItem {
     Item item;
-    @EqualsAndHashCode.Exclude int quantity;
+    @EqualsAndHashCode.Exclude
+    int quantity;
 
 }

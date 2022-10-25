@@ -1,4 +1,4 @@
-package service;
+package com.solvro.solvrobackend.service;
 
 enum BasketAndItemValidatorMessage {
     ITEM_NOT_EXIST("item_doesn't_exist"), BASKET_NOT_EXIST("basket_doesn't_exist"), EVERYTHING_IS_FINE("everything_is_fine");

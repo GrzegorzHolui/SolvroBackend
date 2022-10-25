@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.service.dto;
+package com.solvro.solvrobackend.dto;
 
 import com.solvro.solvrobackend.entity.BasketItem;
 

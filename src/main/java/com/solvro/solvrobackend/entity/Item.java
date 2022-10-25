@@ -1,4 +1,4 @@
-package entity;
+package com.solvro.solvrobackend.entity;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.UUID;
 
 
@@ -21,6 +20,9 @@ public class Item {
 
     @Id
     private UUID productId;
+
+    public Item() {
+    }
 
     private String nameOfProduct;
     private BigDecimal price;

@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.adderContoller;
+package com.solvro.solvrobackend.controllers.RemoverBasket;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class ItemAdderRequestDto {
+public class RemoveBasketRequest {
     UUID basketId;
     UUID itemId;
-    int itemQuantity;
 }

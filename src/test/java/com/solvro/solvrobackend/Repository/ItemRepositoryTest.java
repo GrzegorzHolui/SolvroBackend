@@ -1,4 +1,4 @@
-package Repository;
+package com.solvro.solvrobackend.Repository;
 
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.entity.Item;
@@ -28,12 +28,47 @@ public class ItemRepositoryTest implements ItemRepository {
     }
 
     @Override
-    public <S extends Item> S save(S entity) {
+    public <S extends Item> List<S> saveAll(Iterable<S> entities) {
         return null;
     }
 
     @Override
-    public <S extends Item> List<S> saveAll(Iterable<S> entities) {
+    public List<Item> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Item> findAll(Sort sort) {
+        return null;
+    }
+
+    @Override
+    public <S extends Item> S insert(S entity) {
+        return null;
+    }
+
+    @Override
+    public <S extends Item> List<S> insert(Iterable<S> entities) {
+        return null;
+    }
+
+    @Override
+    public <S extends Item> List<S> findAll(Example<S> example) {
+        return null;
+    }
+
+    @Override
+    public <S extends Item> List<S> findAll(Example<S> example, Sort sort) {
+        return null;
+    }
+
+    @Override
+    public Page<Item> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public <S extends Item> S save(S entity) {
         return null;
     }
 
@@ -45,11 +80,6 @@ public class ItemRepositoryTest implements ItemRepository {
     @Override
     public boolean existsById(UUID uuid) {
         return false;
-    }
-
-    @Override
-    public List<Item> findAll() {
-        return null;
     }
 
     @Override
@@ -88,38 +118,8 @@ public class ItemRepositoryTest implements ItemRepository {
     }
 
     @Override
-    public List<Item> findAll(Sort sort) {
-        return null;
-    }
-
-    @Override
-    public Page<Item> findAll(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public <S extends Item> S insert(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends Item> List<S> insert(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
     public <S extends Item> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
-    }
-
-    @Override
-    public <S extends Item> List<S> findAll(Example<S> example) {
-        return null;
-    }
-
-    @Override
-    public <S extends Item> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
     }
 
     @Override

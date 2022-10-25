@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.adderContoller.adderBasket.dto;
+package com.solvro.solvrobackend.dto;
 
 import java.util.UUID;
 

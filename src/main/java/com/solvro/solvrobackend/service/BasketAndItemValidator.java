@@ -1,7 +1,7 @@
-package service;
+package com.solvro.solvrobackend.service;
 
-import entity.Basket;
-import entity.Item;
+import com.solvro.solvrobackend.entity.Basket;
+import com.solvro.solvrobackend.entity.Item;
 
 import java.util.List;
 import java.util.UUID;

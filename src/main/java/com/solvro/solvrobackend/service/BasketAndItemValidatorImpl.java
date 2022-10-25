@@ -1,17 +1,15 @@
-package service;
+package com.solvro.solvrobackend.service;
 
-import Repository.BasketRepository;
-import Repository.ItemRepository;
-import entity.Basket;
-import entity.Item;
+import com.solvro.solvrobackend.Repository.BasketRepository;
+import com.solvro.solvrobackend.Repository.ItemRepository;
+import com.solvro.solvrobackend.entity.Basket;
+import com.solvro.solvrobackend.entity.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import static service.BasketAndItemValidatorMessage.*;
 
 @Component
 class BasketAndItemValidatorImpl implements BasketAndItemValidator {
@@ -32,14 +30,14 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
     public boolean areNumbersAfterValidationAcceptable(List<BasketAndItemValidatorMessage> validatorMessage) {
         return validatorMessage.size() == ACCEPTABLE_MESSAGE_SIZE &&
-                EVERYTHING_IS_FINE.equals(validatorMessage.get(FIRST_INDEX_IN_LIST));
+                BasketAndItemValidatorMessage.EVERYTHING_IS_FINE.equals(validatorMessage.get(FIRST_INDEX_IN_LIST));
     }
 
     public List<BasketAndItemValidatorMessage> validate(UUID basketId, UUID itemId) {
         List<BasketAndItemValidatorMessage> resultValidatorMessages = new ArrayList<>();
         List<BasketAndItemValidatorMessage> validatorMessages = messagesAdder(basketId, itemId);
         if (validatorMessages.isEmpty()) {
-            resultValidatorMessages.add(EVERYTHING_IS_FINE);
+            resultValidatorMessages.add(BasketAndItemValidatorMessage.EVERYTHING_IS_FINE);
         } else {
             resultValidatorMessages.addAll(validatorMessages);
         }
@@ -55,21 +53,22 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
     private List<BasketAndItemValidatorMessage> messagesAdder(UUID basketId, UUID itemId) {
         List<BasketAndItemValidatorMessage> result = new ArrayList<>();
         if (!isItemIdCorrect(itemId)) {
-            result.add(ITEM_NOT_EXIST);
+            result.add(BasketAndItemValidatorMessage.ITEM_NOT_EXIST);
         }
         if (!isBasketIdCorrect(basketId)) {
-            result.add(BASKET_NOT_EXIST);
+            result.add(BasketAndItemValidatorMessage.BASKET_NOT_EXIST);
         }
         return result;
     }
 
 
     private boolean isBasketIdCorrect(UUID basketId) {
-        return basketItemRepository.findByBasketId(basketId).isPresent();
+        boolean present = basketItemRepository.findByBasketId(basketId).isPresent();
+        return present;
     }
 
     private boolean isItemIdCorrect(UUID itemId) {
-        return itemRepository.findByProductId(itemId).isPresent();
+        boolean present = itemRepository.findByProductId(itemId).isPresent();
+        return present;
     }
-
 }

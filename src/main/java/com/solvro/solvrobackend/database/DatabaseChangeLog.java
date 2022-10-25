@@ -1,16 +1,16 @@
-package database;
+package com.solvro.solvrobackend.database;
 
-import Repository.BasketRepository;
+import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import entity.Basket;
-import entity.BasketItem;
-import entity.Item;
+import com.solvro.solvrobackend.entity.Basket;
+import com.solvro.solvrobackend.entity.BasketItem;
+import com.solvro.solvrobackend.entity.Item;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @ChangeLog(order = "1")
 public class DatabaseChangeLog {
@@ -20,7 +20,7 @@ public class DatabaseChangeLog {
         System.out.println("TESTUJEMY");
         ticketRepository.save(
                 new Basket(new ArrayList<>
-                        (List.of(new BasketItem(new Item("laptop", BigDecimal.ONE), 1)))));
+                        (List.of(new BasketItem(new Item(UUID.fromString("5fc03087-d265-11e7-b8c6-83e29cd24f4c"), "laptop", BigDecimal.ONE), 1)))));
     }
 
 //    @ChangeSet(order = "002", id = "seedDatabase2", author = "bartlomiej.kalka")
