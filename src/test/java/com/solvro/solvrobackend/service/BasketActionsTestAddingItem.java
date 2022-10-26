@@ -18,29 +18,20 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class BasketActionsTestAddingItem {
+class BasketActionsTestAddingItem implements SampleRepository {
 
 
     @Test
     void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemInDataBase() {
         //given
         Item item = new Item("laptop", BigDecimal.valueOf(10));
-//        Todo make builder to item
-//        BasketItem basketItem = new BasketItem(item, 50);
-
         BasketItem basketItem = new BasketItem(item, 1);
-
         Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
-        ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item)));
 
-        BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
+        ItemRepository itemRepository = sampleItemRepository(item);
+        BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
-        BasketAndItemValidator basketAndItemValidator =
-                new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
-        ValidatorMessageConverter validatorMessageConverter = new ValidatorMessageConverter();
-
-        BasketActions basketActions = new BasketActionsImpl(basketItemRepository,
-                itemRepository, basketAndItemValidator, validatorMessageConverter);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
         ServiceResultDto actualResult = basketActions.addItem(basket.getBasketId(), item.getProductId(), 10);
         //then
@@ -53,23 +44,14 @@ class BasketActionsTestAddingItem {
 
     @Test
     void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemNotInDataBase() {
-        //given
         Item item = new Item("laptop", BigDecimal.valueOf(10));
-//        BasketItem basketItem = new BasketItem(item, 50);
-
         BasketItem basketItem = new BasketItem(item, 1);
+        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
 
-        Basket basket = new Basket(new ArrayList<>());
-        ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item)));
+        ItemRepository itemRepository = sampleItemRepository(item);
+        BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
-        BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
-
-        BasketAndItemValidator basketAndItemValidator =
-                new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
-        ValidatorMessageConverter validatorMessageConverter = new ValidatorMessageConverter();
-
-        BasketActions basketActions = new BasketActionsImpl(basketItemRepository,
-                itemRepository, basketAndItemValidator, validatorMessageConverter);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
         ServiceResultDto actualResult = basketActions.addItem(basket.getBasketId(), item.getProductId(), 10);
         //then
@@ -77,25 +59,18 @@ class BasketActionsTestAddingItem {
                 new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 1));
 
         assertThat(actualResult).isEqualTo(expectedResult);
-
     }
 
     @Test
     void shouldReturnThatBasketAndItemDoesntExist() {
-        //given
         Item item = new Item("laptop", BigDecimal.valueOf(10));
+        BasketItem basketItem = new BasketItem(item, 1);
+        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
 
-        Basket basket = new Basket(new ArrayList<>());
-        ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item)));
+        ItemRepository itemRepository = sampleItemRepository(item);
+        BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
-        BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
-
-        BasketAndItemValidator basketAndItemValidator =
-                new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
-        ValidatorMessageConverter validatorMessageConverter = new ValidatorMessageConverter();
-
-        BasketActions basketActions = new BasketActionsImpl(basketItemRepository,
-                itemRepository, basketAndItemValidator, validatorMessageConverter);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
         ServiceResultDto actualResult = basketActions.addItem(UUID.randomUUID(), UUID.randomUUID(), 10);
         //then
@@ -103,7 +78,6 @@ class BasketActionsTestAddingItem {
                 new ServiceResultDto(List.of("item_doesn't_exist", "basket_doesn't_exist"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
-
     }
 
 }

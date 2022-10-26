@@ -6,6 +6,7 @@ import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -17,13 +18,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Service
+@AllArgsConstructor
+//@Service
 public class BasketActionsImpl implements BasketActions {
 
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
     ValidatorMessageConverter numberValidatorMessageConverter;
+    BasketItemSaver basketItemSaver;
 
     private static final int FIRST_INDEX = 0;
 
@@ -34,42 +37,15 @@ public class BasketActionsImpl implements BasketActions {
         basketItemRepository.save(new Basket(UUID.fromString("dea38381-7ab0-4131-b1f5-23359ca2b834"), new ArrayList<>()));
     }
 
-
-    @Autowired
-    public BasketActionsImpl(BasketRepository basketItemRepository, ItemRepository itemRepository, BasketAndItemValidator basketAndItemValidator, ValidatorMessageConverter numberValidatorMessageConverter) {
-        this.basketItemRepository = basketItemRepository;
-        this.itemRepository = itemRepository;
-        this.basketAndItemValidator = basketAndItemValidator;
-        this.numberValidatorMessageConverter = numberValidatorMessageConverter;
-    }
-
     @Override
     public ServiceResultDto addItem(UUID basketId, UUID itemId, int itemQuantity) {
         List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketId, itemId);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
-            Basket currentBasket = basketItemRepository.findByBasketId(basketId).get();
-            Item currentProduct = itemRepository.findByProductId(itemId).get();
-            BasketItem currentBasketItem = BasketItem.builder()
-                    .item(currentProduct)
-                    .quantity(itemQuantity)
-                    .build();
-            Optional<BasketItem> productInBasketItem = currentBasket.isProductInBasketItem(currentBasketItem);
-            if (productInBasketItem.isEmpty()) {
-                currentBasket.getItemList().add(currentBasketItem);
-                basketItemRepository.save(currentBasket);
-//                System.out.println(basketItemRepository.findById(basketId));
-                return new ServiceResultDto(validatorMessage, currentBasketItem);
-            } else {
-                int currentQuantity = productInBasketItem.get().getQuantity();
-                productInBasketItem.get().setQuantity(currentQuantity + itemQuantity);
-                basketItemRepository.save(currentBasket);
-//                System.out.println(basketItemRepository.findById(basketId));
-                return new ServiceResultDto(validatorMessage, productInBasketItem.get());
-            }
+            BasketItem basketItem = basketItemSaver.saveBasketItem(basketId, itemId, itemQuantity);
+            return new ServiceResultDto(validatorMessage, basketItem);
         }
-//        System.out.println(basketItemRepository.findById(basketId));
         return new ServiceResultDto(validatorMessage, null);
     }
 
