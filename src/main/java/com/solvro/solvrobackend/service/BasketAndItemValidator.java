@@ -8,7 +8,7 @@ import java.util.UUID;
 
 interface BasketAndItemValidator {
 
-    List<BasketAndItemValidatorMessage> validate(UUID basketId, UUID itemId);
+    List<BasketAndItemValidatorMessage> validate(String basketId, String itemId);
 
     boolean isItemInBasket(Basket basketId, Item itemId);
 

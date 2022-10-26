@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.exceptions;
+package com.solvro.solvrobackend.controllers.RemoverBasket.exceptions;
 
 public class ItemAdderException extends RuntimeException {
     public ItemAdderException(String textError) {

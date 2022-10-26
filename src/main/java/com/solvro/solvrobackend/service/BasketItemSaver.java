@@ -2,7 +2,6 @@ package com.solvro.solvrobackend.service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -23,9 +22,9 @@ class BasketItemSaver {
         this.itemRepository = itemRepository;
     }
 
-    BasketItem saveBasketItem(UUID basketId, UUID itemId, int itemQuantity) {
-        Basket currentBasket = basketItemRepository.findByBasketId(basketId).get();
-        Item currentProduct = itemRepository.findByProductId(itemId).get();
+    BasketItem saveBasketItem(String basketHash, String itemHash, int itemQuantity) {
+        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
+        Item currentProduct = itemRepository.findByProductHash(itemHash).get();
         BasketItem currentBasketItem = BasketItem.builder()
                 .item(currentProduct)
                 .quantity(itemQuantity)

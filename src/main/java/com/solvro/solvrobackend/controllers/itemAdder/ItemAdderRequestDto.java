@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.UUID;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -16,7 +14,7 @@ import java.util.UUID;
 @Setter
 @ToString
 public class ItemAdderRequestDto {
-    UUID basketId;
-    UUID itemId;
+    String basketHash;
+    String itemHash;
     int itemQuantity;
 }

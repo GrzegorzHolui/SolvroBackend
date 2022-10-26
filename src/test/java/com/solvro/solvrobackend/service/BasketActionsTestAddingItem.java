@@ -1,9 +1,7 @@
 package com.solvro.solvrobackend.service;
 
-import com.solvro.solvrobackend.Repository.BasketRepositoryTest;
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.Repository.ItemRepositoryTest;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -22,18 +20,18 @@ class BasketActionsTestAddingItem implements SampleRepository {
 
 
     @Test
-    void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemInDataBase() {
+    void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemIsInDataBase() {
         //given
-        Item item = new Item("laptop", BigDecimal.valueOf(10));
+        Item item = new Item("laptop", BigDecimal.valueOf(10), "hash1");
         BasketItem basketItem = new BasketItem(item, 1);
-        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
+        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)), UUID.randomUUID().toString());
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketId(), item.getProductId(), 10);
+        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
         //then
         ServiceResultDto expectedResult =
                 new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 11));
@@ -44,16 +42,17 @@ class BasketActionsTestAddingItem implements SampleRepository {
 
     @Test
     void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemNotInDataBase() {
-        Item item = new Item("laptop", BigDecimal.valueOf(10));
+        //given
+        Item item = new Item("laptop", BigDecimal.valueOf(10), "hash1");
         BasketItem basketItem = new BasketItem(item, 1);
-        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
+        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)), UUID.randomUUID().toString());
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketId(), item.getProductId(), 10);
+        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
         //then
         ServiceResultDto expectedResult =
                 new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 1));
@@ -63,16 +62,17 @@ class BasketActionsTestAddingItem implements SampleRepository {
 
     @Test
     void shouldReturnThatBasketAndItemDoesntExist() {
-        Item item = new Item("laptop", BigDecimal.valueOf(10));
+        //given
+        Item item = new Item("laptop", BigDecimal.valueOf(10), "hash1");
         BasketItem basketItem = new BasketItem(item, 1);
-        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
+        Basket basket = new Basket(new ArrayList<>(List.of(basketItem)), UUID.randomUUID().toString());
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(UUID.randomUUID(), UUID.randomUUID(), 10);
+        ServiceResultDto actualResult = basketActions.addItem(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 10);
         //then
         ServiceResultDto expectedResult =
                 new ServiceResultDto(List.of("item_doesn't_exist", "basket_doesn't_exist"), null);

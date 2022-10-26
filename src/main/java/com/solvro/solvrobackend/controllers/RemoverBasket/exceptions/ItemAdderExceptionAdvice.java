@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.exceptions;
+package com.solvro.solvrobackend.controllers.RemoverBasket.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;

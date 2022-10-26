@@ -22,8 +22,8 @@ public class BasketRepositoryTest implements BasketRepository {
     }
 
     @Override
-    public Optional<Basket> findByBasketId(UUID id) {
-        return basketList.stream().filter(basket -> basket.getBasketId().equals(id)).findFirst();
+    public Optional<Basket> findByBasketHash(String basketHash) {
+        return basketList.stream().filter(basket -> basket.getBasketHash().equals(basketHash)).findFirst();
     }
 
     @Override
@@ -33,47 +33,7 @@ public class BasketRepositoryTest implements BasketRepository {
     }
 
     @Override
-    public void insert(BasketItem basketItem) {
-
-    }
-
-    @Override
     public <S extends Basket> List<S> saveAll(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public List<Basket> findAll() {
-        return null;
-    }
-
-    @Override
-    public List<Basket> findAll(Sort sort) {
-        return null;
-    }
-
-    @Override
-    public <S extends Basket> S insert(S entity) {
-        return null;
-    }
-
-    @Override
-    public <S extends Basket> List<S> insert(Iterable<S> entities) {
-        return null;
-    }
-
-    @Override
-    public <S extends Basket> List<S> findAll(Example<S> example) {
-        return null;
-    }
-
-    @Override
-    public <S extends Basket> List<S> findAll(Example<S> example, Sort sort) {
-        return null;
-    }
-
-    @Override
-    public Page<Basket> findAll(Pageable pageable) {
         return null;
     }
 
@@ -85,6 +45,11 @@ public class BasketRepositoryTest implements BasketRepository {
     @Override
     public boolean existsById(UUID uuid) {
         return false;
+    }
+
+    @Override
+    public List<Basket> findAll() {
+        return null;
     }
 
     @Override
@@ -123,8 +88,38 @@ public class BasketRepositoryTest implements BasketRepository {
     }
 
     @Override
+    public List<Basket> findAll(Sort sort) {
+        return null;
+    }
+
+    @Override
+    public Page<Basket> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public <S extends Basket> S insert(S entity) {
+        return null;
+    }
+
+    @Override
+    public <S extends Basket> List<S> insert(Iterable<S> entities) {
+        return null;
+    }
+
+    @Override
     public <S extends Basket> Optional<S> findOne(Example<S> example) {
         return Optional.empty();
+    }
+
+    @Override
+    public <S extends Basket> List<S> findAll(Example<S> example) {
+        return null;
+    }
+
+    @Override
+    public <S extends Basket> List<S> findAll(Example<S> example, Sort sort) {
+        return null;
     }
 
     @Override

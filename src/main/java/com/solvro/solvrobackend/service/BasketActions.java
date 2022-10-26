@@ -5,9 +5,10 @@ import com.solvro.solvrobackend.dto.ServiceResultDto;
 import java.util.UUID;
 
 public interface BasketActions {
-    ServiceResultDto addItem(UUID basketId, UUID itemId, int itemQuantity);
+    ServiceResultDto addItem(String basketHash, String itemHash, int itemQuantity);
 
-    ServiceResultDto deleteItem(UUID basketId, UUID itemId);
+    ServiceResultDto deleteItem(String basketHash, String itemHash);
 
-    ServiceResultDto changeAmountOfProduct(UUID basketId, UUID itemId, int newQuantity);
+
+    ServiceResultDto changeAmountOfProduct(String basketHash, String itemHash, int newQuantity);
 }

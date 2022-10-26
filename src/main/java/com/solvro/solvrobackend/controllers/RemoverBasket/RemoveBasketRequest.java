@@ -16,6 +16,6 @@ import java.util.UUID;
 @Setter
 @ToString
 public class RemoveBasketRequest {
-    UUID basketId;
-    UUID itemId;
+    String basketHash;
+    String itemHash;
 }

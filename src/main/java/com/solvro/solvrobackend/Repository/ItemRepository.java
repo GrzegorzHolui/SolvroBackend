@@ -10,6 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ItemRepository extends MongoRepository<Item, UUID> {
-    Optional<Item> findByProductId(UUID productId);
+    Optional<Item> findByProductHash(String productHash);
 
 }

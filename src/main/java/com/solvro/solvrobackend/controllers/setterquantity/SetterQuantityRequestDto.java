@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @ToString
 public class SetterQuantityRequestDto {
-    UUID basketId;
-    UUID itemId;
+    String basketHash;
+    String itemHash;
     int newQuantity;
 }

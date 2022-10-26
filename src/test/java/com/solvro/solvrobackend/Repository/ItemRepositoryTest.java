@@ -21,9 +21,9 @@ public class ItemRepositoryTest implements ItemRepository {
     }
 
     @Override
-    public Optional<Item> findByProductId(UUID productId) {
+    public Optional<Item> findByProductHash(String productHash) {
         return itemList.stream()
-                .filter(item -> item.getProductId().equals(productId)).findFirst();
+                .filter(item -> item.getProductHash().equals(productHash)).findFirst();
     }
 
     @Override

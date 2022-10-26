@@ -13,13 +13,13 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-@Builder
 @ToString
 @Document(collection = "item")
 public class Item {
-
     @Id
     private UUID productId;
+
+    private String productHash;
 
     public Item() {
     }
@@ -27,15 +27,17 @@ public class Item {
     private String nameOfProduct;
     private BigDecimal price;
 
-    public Item(String nameOfProduct, BigDecimal price) {
+    public Item(String nameOfProduct, BigDecimal price, String productHash) {
         this.productId = UUID.randomUUID();
         this.nameOfProduct = nameOfProduct;
         this.price = price;
+        this.productHash = productHash;
     }
 
-    public Item(UUID productId, String nameOfProduct, BigDecimal price) {
+    public Item(UUID productId, String nameOfProduct, BigDecimal price, String productHash) {
         this.productId = productId;
         this.nameOfProduct = nameOfProduct;
         this.price = price;
+        this.productHash = productHash;
     }
 }

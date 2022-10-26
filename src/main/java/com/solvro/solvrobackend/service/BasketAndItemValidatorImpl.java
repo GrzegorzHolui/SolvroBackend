@@ -32,9 +32,9 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
                 BasketAndItemValidatorMessage.EVERYTHING_IS_FINE.equals(validatorMessage.get(FIRST_INDEX_IN_LIST));
     }
 
-    public List<BasketAndItemValidatorMessage> validate(UUID basketId, UUID itemId) {
+    public List<BasketAndItemValidatorMessage> validate(String basketHash, String itemHash) {
         List<BasketAndItemValidatorMessage> resultValidatorMessages = new ArrayList<>();
-        List<BasketAndItemValidatorMessage> validatorMessages = messagesAdder(basketId, itemId);
+        List<BasketAndItemValidatorMessage> validatorMessages = messagesAdder(basketHash, itemHash);
         if (validatorMessages.isEmpty()) {
             resultValidatorMessages.add(BasketAndItemValidatorMessage.EVERYTHING_IS_FINE);
         } else {
@@ -49,25 +49,25 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
                 .count() == amountToFindItemInBasket;
     }
 
-    private List<BasketAndItemValidatorMessage> messagesAdder(UUID basketId, UUID itemId) {
+    private List<BasketAndItemValidatorMessage> messagesAdder(String basketHash, String itemHash) {
         List<BasketAndItemValidatorMessage> result = new ArrayList<>();
-        if (!isItemIdCorrect(itemId)) {
+        if (!isItemIdCorrect(itemHash)) {
             result.add(BasketAndItemValidatorMessage.ITEM_NOT_EXIST);
         }
-        if (!isBasketIdCorrect(basketId)) {
+        if (!isBasketIdCorrect(basketHash)) {
             result.add(BasketAndItemValidatorMessage.BASKET_NOT_EXIST);
         }
         return result;
     }
 
 
-    private boolean isBasketIdCorrect(UUID basketId) {
-        boolean present = basketItemRepository.findByBasketId(basketId).isPresent();
+    private boolean isBasketIdCorrect(String basketHash) {
+        boolean present = basketItemRepository.findByBasketHash(basketHash).isPresent();
         return present;
     }
 
-    private boolean isItemIdCorrect(UUID itemId) {
-        boolean present = itemRepository.findByProductId(itemId).isPresent();
+    private boolean isItemIdCorrect(String itemHash) {
+        boolean present = itemRepository.findByProductHash(itemHash).isPresent();
         return present;
     }
 }

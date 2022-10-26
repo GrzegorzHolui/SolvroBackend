@@ -7,15 +7,12 @@ import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -33,70 +30,74 @@ public class BasketActionsImpl implements BasketActions {
 
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB() {
-        Item laptop = itemRepository.save(new Item(UUID.fromString("ba0f8c84-d37c-4521-9938-dfd14bc99757"), "laptop", BigDecimal.ONE));
-        basketItemRepository.save(new Basket(UUID.fromString("dea38381-7ab0-4131-b1f5-23359ca2b834"), new ArrayList<>()));
+        Item laptop = itemRepository.save
+                (new Item(UUID.fromString("ba0f8c84-d37c-4521-9938-dfd14bc99757")
+                        , "laptop", BigDecimal.ONE, UUID.randomUUID().toString()));
+        basketItemRepository.save(new Basket(UUID.fromString("dea38381-7ab0-4131-b1f5-23359ca2b834"),
+                UUID.randomUUID().toString(),
+                new ArrayList<>()));
     }
 
     @Override
-    public ServiceResultDto addItem(UUID basketId, UUID itemId, int itemQuantity) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketId, itemId);
+    public ServiceResultDto addItem(String basketHash, String itemHash, int itemQuantity) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
-            BasketItem basketItem = basketItemSaver.saveBasketItem(basketId, itemId, itemQuantity);
+            BasketItem basketItem = basketItemSaver.saveBasketItem(basketHash, itemHash, itemQuantity);
             return new ServiceResultDto(validatorMessage, basketItem);
         }
         return new ServiceResultDto(validatorMessage, null);
     }
 
     @Override
-    public ServiceResultDto deleteItem(UUID basketId, UUID itemId) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketId, itemId);
+    public ServiceResultDto deleteItem(String basketHash, String itemHash) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
-            Basket currentBasket = basketItemRepository.findByBasketId(basketId).get();
-            Item productToRemove = itemRepository.findByProductId(itemId).get();
+            Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
+            Item productToRemove = itemRepository.findByProductHash(itemHash).get();
             if (!basketAndItemValidator.isItemInBasket(currentBasket, productToRemove)) {
                 addMessageToValidatorMessage(validatorMessage, "This product is not in your basket");
-//                System.out.println(basketItemRepository.findById(basketId));
+//                System.out.println(basketItemRepository.findByHash(basketHash));
                 return new ServiceResultDto(validatorMessage, null);
             }
             for (BasketItem item : currentBasket.getItemList()) {
                 if (item.getItem().equals(productToRemove)) {
                     currentBasket.getItemList().remove(item);
                     basketItemRepository.save(currentBasket);
-//                    System.out.println(basketItemRepository.findById(basketId));
+//                    System.out.println(basketItemRepository.findByHash(basketHash));
                     return new ServiceResultDto(validatorMessage, item);
                 }
             }
         }
-//        System.out.println(basketItemRepository.findById(basketId));
+//        System.out.println(basketItemRepository.findByHash(basketHash));
         return new ServiceResultDto(validatorMessage, null);
     }
 
-    private List<BasketAndItemValidatorMessage> validateMessage(UUID basketId, UUID itemId) {
-        return basketAndItemValidator.validate(basketId, itemId);
+    private List<BasketAndItemValidatorMessage> validateMessage(String basketHash, String itemHash) {
+        return basketAndItemValidator.validate(basketHash, itemHash);
     }
 
     @Override
-    public ServiceResultDto changeAmountOfProduct(UUID basketId, UUID itemId, int newQuantity) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketId, itemId);
+    public ServiceResultDto changeAmountOfProduct(String basketHash, String itemHash, int newQuantity) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
-            Basket currentBasket = basketItemRepository.findByBasketId(basketId).get();
-            Item productToChangeQuantity = itemRepository.findByProductId(itemId).get();
+            Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
+            Item productToChangeQuantity = itemRepository.findByProductHash(itemHash).get();
             if (!basketAndItemValidator.isItemInBasket(currentBasket, productToChangeQuantity)) {
                 addMessageToValidatorMessage(validatorMessage, "This product is not in your basket");
-                System.out.println(basketItemRepository.findById(basketId));
+                System.out.println(basketItemRepository.findByBasketHash(basketHash));
                 return new ServiceResultDto(validatorMessage, null);
             }
             for (BasketItem item : currentBasket.getItemList()) {
                 if (item.getItem().equals(productToChangeQuantity)) {
                     item.setQuantity(newQuantity);
                     basketItemRepository.save(currentBasket);
-                    System.out.println(basketItemRepository.findById(basketId));
+                    System.out.println(basketItemRepository.findByBasketHash(basketHash));
                     return new ServiceResultDto(validatorMessage, item);
                 }
             }
@@ -105,8 +106,8 @@ public class BasketActionsImpl implements BasketActions {
     }
 
 //    @Override
-//    public ServiceResultDto addDiscount(UUID basketId, UUID itemId, ) {
-//        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketId, itemId);
+//    public ServiceResultDto addDiscount(UUID basketHash, UUID itemHash, ) {
+//        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketHash, itemId);
 //        List<String> validatorMessage = numberValidatorMessageConverter
 //                .convertValidatorMessageToString(enumValidatorMessage);
 //        if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {

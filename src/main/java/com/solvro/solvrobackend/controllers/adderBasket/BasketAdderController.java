@@ -18,7 +18,7 @@ public class BasketAdderController {
 
     @PostMapping("/addBasket")
     public ResponseEntity<BasketResultDto> addBasket() {
-        Basket basket = new Basket(new ArrayList<>());
+        Basket basket = new Basket(new ArrayList<>(),"testHash");
         basketRepository.save(basket);
         return ResponseEntity.ok(new BasketResultDto("new Basket has been added", basket.getBasketId()));
     }
