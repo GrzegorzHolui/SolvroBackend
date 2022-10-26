@@ -1,9 +1,8 @@
 package com.solvro.solvrobackend.Repository;
 
-import com.solvro.solvrobackend.entity.Basket;
-import com.solvro.solvrobackend.entity.BasketItem;
+import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.BasketItem;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

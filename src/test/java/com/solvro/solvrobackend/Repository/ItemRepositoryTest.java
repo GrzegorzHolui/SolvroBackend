@@ -1,7 +1,6 @@
 package com.solvro.solvrobackend.Repository;
 
-import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.entity.Item;
+import com.solvro.solvrobackend.model.Item;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

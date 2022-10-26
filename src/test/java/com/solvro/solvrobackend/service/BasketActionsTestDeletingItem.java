@@ -1,13 +1,13 @@
 package com.solvro.solvrobackend.service;
 
-import com.solvro.solvrobackend.Repository.BasketItemRepositoryTest;
+import com.solvro.solvrobackend.Repository.BasketRepositoryTest;
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.Repository.ItemRepositoryTest;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
-import com.solvro.solvrobackend.entity.Basket;
-import com.solvro.solvrobackend.entity.BasketItem;
-import com.solvro.solvrobackend.entity.Item;
+import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.BasketItem;
+import com.solvro.solvrobackend.model.Item;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -29,7 +29,7 @@ class BasketActionsTestDeletingItem {
         Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
         ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item)));
 
-        BasketRepository basketItemRepository = new BasketItemRepositoryTest(new ArrayList<>(List.of(basket)));
+        BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
 
         BasketAndItemValidator basketAndItemValidator =
                 new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
@@ -59,7 +59,7 @@ class BasketActionsTestDeletingItem {
         Basket basket = new Basket(new ArrayList<>(List.of(basketItem)));
         ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item, itemToFind)));
 
-        BasketRepository basketItemRepository = new BasketItemRepositoryTest(new ArrayList<>(List.of(basket)));
+        BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
 
         BasketAndItemValidator basketAndItemValidator =
                 new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);

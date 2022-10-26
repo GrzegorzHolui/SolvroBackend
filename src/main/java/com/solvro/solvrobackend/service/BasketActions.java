@@ -9,5 +9,5 @@ public interface BasketActions {
 
     ServiceResultDto deleteItem(UUID basketId, UUID itemId);
 
-    ServiceResultDto changeAmountOfProduct(UUID basketId, UUID itemId);
+    ServiceResultDto changeAmountOfProduct(UUID basketId, UUID itemId, int newQuantity);
 }

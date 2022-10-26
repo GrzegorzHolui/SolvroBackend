@@ -1,8 +1,7 @@
 package com.solvro.solvrobackend.Repository;
 
-import com.solvro.solvrobackend.Repository.BasketRepository;
-import com.solvro.solvrobackend.entity.Basket;
-import com.solvro.solvrobackend.entity.BasketItem;
+import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.BasketItem;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,11 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
-public class BasketItemRepositoryTest implements BasketRepository {
+public class BasketRepositoryTest implements BasketRepository {
 
     List<Basket> basketList;
 
-    public BasketItemRepositoryTest(List<Basket> basketList) {
+    public BasketRepositoryTest(List<Basket> basketList) {
         this.basketList = basketList;
     }
 

@@ -1,6 +1,6 @@
 package com.solvro.solvrobackend.dto;
 
-import com.solvro.solvrobackend.entity.BasketItem;
+import com.solvro.solvrobackend.model.BasketItem;
 
 import java.util.List;
 

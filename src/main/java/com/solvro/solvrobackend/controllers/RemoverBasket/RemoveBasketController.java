@@ -17,7 +17,7 @@ public class RemoveBasketController {
     BasketActions basketActions;
 
     @DeleteMapping("/deleteItem")
-    public ResponseEntity<ServiceResultDto> remove(@RequestBody RemoveBasketRequest removeBasketRequest) throws ItemAdderException {
+    public ResponseEntity<ServiceResultDto> remove(@RequestBody RemoveBasketRequest removeBasketRequest)   {
         ServiceResultDto serviceResultDto = basketActions.deleteItem(removeBasketRequest.getBasketId(), removeBasketRequest.getItemId());
 //        ServiceResultDto serviceResultDto = basketActions.deleteItem(UUID.randomUUID(), UUID.randomUUID());
         if (!serviceResultDto.message().contains("everything_is_fine")) {

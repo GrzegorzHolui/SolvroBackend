@@ -2,8 +2,8 @@ package com.solvro.solvrobackend.service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.entity.Basket;
-import com.solvro.solvrobackend.entity.Item;
+import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,7 +19,6 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
     private static final int ACCEPTABLE_MESSAGE_SIZE = 1;
     private static final int FIRST_INDEX_IN_LIST = 0;
-
     private static final int amountToFindItemInBasket = 1;
 
     @Autowired
@@ -28,7 +27,7 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
         this.itemRepository = itemRepository;
     }
 
-    public boolean areNumbersAfterValidationAcceptable(List<BasketAndItemValidatorMessage> validatorMessage) {
+    public boolean isBasketAndItemAfterValidationAcceptable(List<BasketAndItemValidatorMessage> validatorMessage) {
         return validatorMessage.size() == ACCEPTABLE_MESSAGE_SIZE &&
                 BasketAndItemValidatorMessage.EVERYTHING_IS_FINE.equals(validatorMessage.get(FIRST_INDEX_IN_LIST));
     }

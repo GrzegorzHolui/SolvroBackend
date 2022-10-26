@@ -1,8 +1,7 @@
 package com.solvro.solvrobackend.Repository;
 
-import com.solvro.solvrobackend.entity.Item;
+import com.solvro.solvrobackend.model.Item;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

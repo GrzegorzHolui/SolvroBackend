@@ -3,9 +3,9 @@ package com.solvro.solvrobackend.database;
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
-import com.solvro.solvrobackend.entity.Basket;
-import com.solvro.solvrobackend.entity.BasketItem;
-import com.solvro.solvrobackend.entity.Item;
+import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.BasketItem;
+import com.solvro.solvrobackend.model.Item;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

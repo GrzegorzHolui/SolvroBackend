@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.entity;
+package com.solvro.solvrobackend.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

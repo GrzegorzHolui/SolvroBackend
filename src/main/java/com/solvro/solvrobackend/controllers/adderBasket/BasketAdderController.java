@@ -2,7 +2,7 @@ package com.solvro.solvrobackend.controllers.adderBasket;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.dto.BasketResultDto;
-import com.solvro.solvrobackend.entity.Basket;
+import com.solvro.solvrobackend.model.Basket;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
