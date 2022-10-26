@@ -5,22 +5,18 @@ import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@AllArgsConstructor
 class BasketItemSaver {
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
-
-    @Autowired
-    public BasketItemSaver(BasketRepository basketItemRepository, ItemRepository itemRepository) {
-        this.basketItemRepository = basketItemRepository;
-        this.itemRepository = itemRepository;
-    }
 
     BasketItem saveBasketItem(String basketHash, String itemHash, int itemQuantity) {
         Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();

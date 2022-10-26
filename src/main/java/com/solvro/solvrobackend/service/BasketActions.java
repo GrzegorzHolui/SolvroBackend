@@ -9,6 +9,5 @@ public interface BasketActions {
 
     ServiceResultDto deleteItem(String basketHash, String itemHash);
 
-
     ServiceResultDto changeAmountOfProduct(String basketHash, String itemHash, int newQuantity);
 }

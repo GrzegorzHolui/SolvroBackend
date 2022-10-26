@@ -13,10 +13,13 @@ public class ServiceConfiguration {
         BasketAndItemValidator basketAndItemValidator = new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
         ValidatorMessageConverter numberValidatorMessageConverter = new ValidatorMessageConverter();
         BasketItemSaver basketItemSaver = new BasketItemSaver(basketItemRepository, itemRepository);
-        return new BasketActionsImpl(basketItemRepository, itemRepository, basketAndItemValidator, numberValidatorMessageConverter, basketItemSaver);
+        BasketItemDeleter basketItemDeleter = new BasketItemDeleter(basketItemRepository, itemRepository, basketAndItemValidator);
+        BasketItemQuantityChanger basketItemQuantityChanger = new BasketItemQuantityChanger(basketItemRepository, itemRepository, basketAndItemValidator);
+        return new BasketActionsImpl(basketItemRepository, itemRepository,
+                basketAndItemValidator, numberValidatorMessageConverter, basketItemSaver, basketItemDeleter, basketItemQuantityChanger);
     }
 
     public BasketActions basketActionsTest(BasketRepository basketItemRepository, ItemRepository itemRepository) {
-       return basketActions(basketItemRepository, itemRepository);
+        return basketActions(basketItemRepository, itemRepository);
     }
 }
