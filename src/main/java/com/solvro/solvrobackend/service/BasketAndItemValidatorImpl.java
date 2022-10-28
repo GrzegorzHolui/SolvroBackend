@@ -3,12 +3,14 @@ package com.solvro.solvrobackend.service;
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.model.Basket;
+import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -43,10 +45,16 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
         return resultValidatorMessages;
     }
 
-    public boolean isItemInBasket(Basket basket, Item itemToCompare) {
+//    public boolean isItemInBasket(Basket basket, Item item) {
+//        return basket.getItemList().stream()
+//                .filter(basketItem -> basketItem.getItem().equals(item))
+//                .count() == amountToFindItemInBasket;
+//    }
+
+    public Optional<BasketItem> getProductInBasketItem(Basket basket, Item item) {
         return basket.getItemList().stream()
-                .filter(basketItem -> basketItem.getItem().equals(itemToCompare))
-                .count() == amountToFindItemInBasket;
+                .filter(basketItem -> basketItem.getItem().equals(item))
+                .findFirst();
     }
 
     private List<BasketAndItemValidatorMessage> messagesAdder(String basketHash, String itemHash) {

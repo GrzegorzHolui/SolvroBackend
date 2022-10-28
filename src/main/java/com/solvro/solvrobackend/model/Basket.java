@@ -41,7 +41,5 @@ public class Basket {
     }
 
 
-    public Optional<BasketItem> isProductInBasketItem(BasketItem basketItemToCheck) {
-        return this.itemList.stream().filter((currenBasketItem) -> currenBasketItem.equals(basketItemToCheck)).findFirst();
-    }
+
 }

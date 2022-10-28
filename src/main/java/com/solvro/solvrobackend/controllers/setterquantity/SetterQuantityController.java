@@ -1,7 +1,7 @@
 package com.solvro.solvrobackend.controllers.setterquantity;
 
 import com.solvro.solvrobackend.controllers.MessagesExceptionMaker;
-import com.solvro.solvrobackend.controllers.RemoverBasket.exceptions.ItemAdderException;
+import com.solvro.solvrobackend.controllers.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
@@ -22,7 +22,7 @@ public class SetterQuantityController {
                 basketActions.changeAmountOfProduct(setterQuantityRequestDto.getBasketHash(),
                         setterQuantityRequestDto.getItemHash(), setterQuantityRequestDto.getNewQuantity());
         if (!serviceResultDto.message().contains("everything_is_fine")) {
-            throw new ItemAdderException(MessagesExceptionMaker.makeMessage(serviceResultDto));
+            throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto));
         }
         return ResponseEntity.ok(serviceResultDto);
     }

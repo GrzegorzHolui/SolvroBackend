@@ -2,7 +2,6 @@ package com.solvro.solvrobackend.service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -16,12 +15,13 @@ class BasketItemDeleter {
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
 
+    private static String NO_PRODUCT_IN_BASKET = "This product is not in your basket";
 
     BasketItem deleteBasketItem(String basketHash, String itemHash, List<String> validatorMessage) {
         Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
         Item productToRemove = itemRepository.findByProductHash(itemHash).get();
-        if (!basketAndItemValidator.isItemInBasket(currentBasket, productToRemove)) {
-            addMessageToValidatorMessage(validatorMessage, "This product is not in your basket");
+        if (basketAndItemValidator.getProductInBasketItem(currentBasket, productToRemove).isEmpty()) {
+            addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET);
 //                System.out.println(basketItemRepository.findByHash(basketHash));
             return null;
         }

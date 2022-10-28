@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Configuration
+
 class ValidatorMessageConverter {
     List<String> convertValidatorMessageToString(List<BasketAndItemValidatorMessage> validatorMessages) {
         return validatorMessages.stream()

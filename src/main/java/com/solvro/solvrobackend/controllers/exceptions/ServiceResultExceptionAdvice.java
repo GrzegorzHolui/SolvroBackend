@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.RemoverBasket.exceptions;
+package com.solvro.solvrobackend.controllers.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @ControllerAdvice
-public class ItemAdderExceptionAdvice {
+class ServiceResultExceptionAdvice {
 
     @ResponseBody
-    @ExceptionHandler(ItemAdderException.class)
+    @ExceptionHandler(ServiceResultException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String InputNumbersErrorHandler(ItemAdderException InputNumbersException) {
+    public String InputNumbersErrorHandler(ServiceResultException InputNumbersException) {
         return InputNumbersException.getMessage();
     }
 }

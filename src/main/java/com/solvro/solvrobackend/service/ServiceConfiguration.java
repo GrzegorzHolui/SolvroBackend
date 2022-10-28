@@ -12,7 +12,7 @@ public class ServiceConfiguration {
     public BasketActions basketActions(BasketRepository basketItemRepository, ItemRepository itemRepository) {
         BasketAndItemValidator basketAndItemValidator = new BasketAndItemValidatorImpl(basketItemRepository, itemRepository);
         ValidatorMessageConverter numberValidatorMessageConverter = new ValidatorMessageConverter();
-        BasketItemSaver basketItemSaver = new BasketItemSaver(basketItemRepository, itemRepository);
+        BasketItemSaver basketItemSaver = new BasketItemSaver(basketItemRepository, itemRepository, basketAndItemValidator);
         BasketItemDeleter basketItemDeleter = new BasketItemDeleter(basketItemRepository, itemRepository, basketAndItemValidator);
         BasketItemQuantityChanger basketItemQuantityChanger = new BasketItemQuantityChanger(basketItemRepository, itemRepository, basketAndItemValidator);
         return new BasketActionsImpl(basketItemRepository, itemRepository,

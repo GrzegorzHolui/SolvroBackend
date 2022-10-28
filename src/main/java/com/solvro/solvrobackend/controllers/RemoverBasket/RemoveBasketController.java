@@ -1,7 +1,7 @@
 package com.solvro.solvrobackend.controllers.RemoverBasket;
 
 import com.solvro.solvrobackend.controllers.MessagesExceptionMaker;
-import com.solvro.solvrobackend.controllers.RemoverBasket.exceptions.ItemAdderException;
+import com.solvro.solvrobackend.controllers.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class RemoveBasketController {
     public ResponseEntity<ServiceResultDto> remove(@RequestBody RemoveBasketRequest removeBasketRequest) {
         ServiceResultDto serviceResultDto = basketActions.deleteItem(removeBasketRequest.getBasketHash(), removeBasketRequest.getItemHash());
         if (!serviceResultDto.message().contains("everything_is_fine")) {
-            throw new ItemAdderException(MessagesExceptionMaker.makeMessage(serviceResultDto));
+            throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto));
         }
 
         return ResponseEntity.ok(serviceResultDto);
