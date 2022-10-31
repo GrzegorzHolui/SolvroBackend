@@ -1,6 +1,5 @@
 package com.solvro.solvrobackend.model;
 
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
@@ -25,19 +24,19 @@ public class Item {
     }
 
     private String nameOfProduct;
-    private BigDecimal price;
+    private BigDecimal priceForOneItem;
 
-    public Item(String nameOfProduct, BigDecimal price, String productHash) {
+    public Item(String nameOfProduct, BigDecimal priceForOneItem, String productHash) {
         this.productId = UUID.randomUUID();
         this.nameOfProduct = nameOfProduct;
-        this.price = price;
+        this.priceForOneItem = priceForOneItem;
         this.productHash = productHash;
     }
 
-    public Item(UUID productId, String nameOfProduct, BigDecimal price, String productHash) {
+    public Item(UUID productId, String nameOfProduct, BigDecimal priceForOneItem, String productHash) {
         this.productId = productId;
         this.nameOfProduct = nameOfProduct;
-        this.price = price;
+        this.priceForOneItem = priceForOneItem;
         this.productHash = productHash;
     }
 }

@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-@Component
 class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
     BasketRepository basketItemRepository;
@@ -21,9 +19,9 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
     private static final int ACCEPTABLE_MESSAGE_SIZE = 1;
     private static final int FIRST_INDEX_IN_LIST = 0;
+
     private static final int amountToFindItemInBasket = 1;
 
-    @Autowired
     public BasketAndItemValidatorImpl(BasketRepository basketItemRepository, ItemRepository itemRepository) {
         this.basketItemRepository = basketItemRepository;
         this.itemRepository = itemRepository;
@@ -34,7 +32,18 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
                 BasketAndItemValidatorMessage.EVERYTHING_IS_FINE.equals(validatorMessage.get(FIRST_INDEX_IN_LIST));
     }
 
-    public List<BasketAndItemValidatorMessage> validate(String basketHash, String itemHash) {
+    @Override
+    public List<BasketAndItemValidatorMessage> validateBasket(String basketHash) {
+        List<BasketAndItemValidatorMessage> resultValidatorMessages = new ArrayList<>();
+        if (basketItemRepository.findByBasketHash(basketHash).isPresent()) {
+            resultValidatorMessages.add(BasketAndItemValidatorMessage.EVERYTHING_IS_FINE);
+        } else {
+            resultValidatorMessages.add(BasketAndItemValidatorMessage.BASKET_NOT_EXIST);
+        }
+        return resultValidatorMessages;
+    }
+
+    public List<BasketAndItemValidatorMessage> validateBasketAndItem(String basketHash, String itemHash) {
         List<BasketAndItemValidatorMessage> resultValidatorMessages = new ArrayList<>();
         List<BasketAndItemValidatorMessage> validatorMessages = messagesAdder(basketHash, itemHash);
         if (validatorMessages.isEmpty()) {
@@ -45,12 +54,6 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
         return resultValidatorMessages;
     }
 
-//    public boolean isItemInBasket(Basket basket, Item item) {
-//        return basket.getItemList().stream()
-//                .filter(basketItem -> basketItem.getItem().equals(item))
-//                .count() == amountToFindItemInBasket;
-//    }
-
     public Optional<BasketItem> getProductInBasketItem(Basket basket, Item item) {
         return basket.getItemList().stream()
                 .filter(basketItem -> basketItem.getItem().equals(item))
@@ -59,22 +62,22 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
     private List<BasketAndItemValidatorMessage> messagesAdder(String basketHash, String itemHash) {
         List<BasketAndItemValidatorMessage> result = new ArrayList<>();
-        if (!isItemIdCorrect(itemHash)) {
+        if (!isItemHashCorrect(itemHash)) {
             result.add(BasketAndItemValidatorMessage.ITEM_NOT_EXIST);
         }
-        if (!isBasketIdCorrect(basketHash)) {
+        if (!isBasketHashCorrect(basketHash)) {
             result.add(BasketAndItemValidatorMessage.BASKET_NOT_EXIST);
         }
         return result;
     }
 
 
-    private boolean isBasketIdCorrect(String basketHash) {
+    private boolean isBasketHashCorrect(String basketHash) {
         boolean present = basketItemRepository.findByBasketHash(basketHash).isPresent();
         return present;
     }
 
-    private boolean isItemIdCorrect(String itemHash) {
+    private boolean isItemHashCorrect(String itemHash) {
         boolean present = itemRepository.findByProductHash(itemHash).isPresent();
         return present;
     }

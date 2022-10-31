@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.service;
+package service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.BasketRepositoryTest;

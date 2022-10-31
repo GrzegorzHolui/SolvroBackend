@@ -1,13 +1,17 @@
-package com.solvro.solvrobackend.service;
+package service;
 
 import com.solvro.solvrobackend.Repository.BasketRepositoryTest;
 import com.solvro.solvrobackend.Repository.BasketRepository;
+import com.solvro.solvrobackend.Repository.DiscountCardRepository;
+import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.Repository.ItemRepositoryTest;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
+import com.solvro.solvrobackend.service.BasketActions;
+import com.solvro.solvrobackend.service.ServiceConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -27,8 +31,9 @@ class BasketActionsTestDeletingItem implements SampleRepository {
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
+        DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
         ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), item.getProductHash());
         //then
@@ -49,7 +54,9 @@ class BasketActionsTestDeletingItem implements SampleRepository {
         Basket basket = new Basket(new ArrayList<>(List.of(basketItem)), "basketHash");
         ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item, itemToFind)));
         BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
+        DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
+
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
         ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
         //then
@@ -69,7 +76,9 @@ class BasketActionsTestDeletingItem implements SampleRepository {
         Basket basket = new Basket(new ArrayList<>(List.of(basketItem)), "basketHash");
         ItemRepository itemRepository = new ItemRepositoryTest(new ArrayList<>(List.of(item)));
         BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
+        DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
+
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
         ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
         //then

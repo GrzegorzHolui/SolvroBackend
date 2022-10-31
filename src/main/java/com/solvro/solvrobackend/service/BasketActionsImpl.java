@@ -2,18 +2,14 @@ package com.solvro.solvrobackend.service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
-import com.solvro.solvrobackend.model.Item;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.model.DeliveryType;
+import com.solvro.solvrobackend.model.DiscountCard;
+import com.solvro.solvrobackend.model.SummaryInfo;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @AllArgsConstructor
 //@Service
@@ -25,25 +21,14 @@ public class BasketActionsImpl implements BasketActions {
     ValidatorMessageConverter numberValidatorMessageConverter;
     BasketItemSaver basketItemSaver;
     BasketItemDeleter basketItemDeleter;
-
     BasketItemQuantityChanger basketItemQuantityChanger;
-
-    private static final int FIRST_INDEX = 0;
-
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void fillDB() {
-        Item laptop = itemRepository.save
-                (new Item(UUID.fromString("ba0f8c84-d37c-4521-9938-dfd14bc99757")
-                        , "laptop", BigDecimal.ONE, "laptopHash"));
-        basketItemRepository.save(new Basket(UUID.fromString("dea38381-7ab0-4131-b1f5-23359ca2b834"),
-                "basketHash",
-                new ArrayList<>()));
-    }
+    BasketDeliveryTypeSetter basketDeliveryTypeSetter;
+    BasketDiscountSetter basketDiscountSetter;
+    BasketSummaryInfoMaker basketSummaryInfoMaker;
 
     @Override
     public ServiceResultDto addItem(String basketHash, String itemHash, int itemQuantity) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validate(basketHash, itemHash);
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasketAndItem(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
@@ -55,7 +40,7 @@ public class BasketActionsImpl implements BasketActions {
 
     @Override
     public ServiceResultDto deleteItem(String basketHash, String itemHash) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validate(basketHash, itemHash);
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasketAndItem(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
@@ -69,7 +54,7 @@ public class BasketActionsImpl implements BasketActions {
 
     @Override
     public ServiceResultDto changeAmountOfProduct(String basketHash, String itemHash, int newQuantity) {
-        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validate(basketHash, itemHash);
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasketAndItem(basketHash, itemHash);
         List<String> validatorMessage = numberValidatorMessageConverter
                 .convertValidatorMessageToString(enumValidatorMessage);
         if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
@@ -79,28 +64,40 @@ public class BasketActionsImpl implements BasketActions {
         return new ServiceResultDto(validatorMessage, null);
     }
 
-//    @Override
-//    public ServiceResultDto addDiscount(UUID basketHash, UUID itemHash, ) {
-//        List<BasketAndItemValidatorMessage> enumValidatorMessage = validateMessage(basketHash, itemId);
-//        List<String> validatorMessage = numberValidatorMessageConverter
-//                .convertValidatorMessageToString(enumValidatorMessage);
-//        if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
-//            Basket currentBasket = basketItemRepository.findByBasketId(basketId).get();
-//            Item productToChangeQuantity = itemRepository.findByProductId(itemId).get();
-//            if (!basketAndItemValidator.isItemInBasket(currentBasket, productToChangeQuantity)) {
-//                addMessageToValidatorMessage(validatorMessage, "This product is not in your basket");
-//                System.out.println(basketItemRepository.findById(basketId));
-//                return new ServiceResultDto(validatorMessage, null);
-//            }
-//            for (BasketItem item : currentBasket.getItemList()) {
-//                if (item.getItem().equals(productToChangeQuantity)) {
-//                    item.setQuantity(newQuantity);
-//                    basketItemRepository.save(currentBasket);
-//                    System.out.println(basketItemRepository.findById(basketId));
-//                    return new ServiceResultDto(validatorMessage, item);
-//                }
-//            }
-//        }
-//        return new ServiceResultDto(validatorMessage, null);
-//    }
+    @Override
+    public ServiceResultDto setDeliveryType(String basketHash, DeliveryType deliveryType) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasket(basketHash);
+        List<String> validatorMessage = numberValidatorMessageConverter
+                .convertValidatorMessageToString(enumValidatorMessage);
+        if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
+            DeliveryType deliveryTypeResult = basketDeliveryTypeSetter
+                    .setBasketDeliveryType(basketHash, deliveryType);
+            return new ServiceResultDto(validatorMessage, deliveryTypeResult);
+        }
+        return new ServiceResultDto(validatorMessage, null);
+    }
+
+    @Override
+    public ServiceResultDto setDiscount(String basketHash, String discountCardHash) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasket(basketHash);
+        List<String> validatorMessage = numberValidatorMessageConverter
+                .convertValidatorMessageToString(enumValidatorMessage);
+        if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
+            DiscountCard discount = basketDiscountSetter.setBasketDiscount(basketHash, discountCardHash);
+            return new ServiceResultDto(validatorMessage, discount);
+        }
+        return new ServiceResultDto(validatorMessage, null);
+    }
+
+    @Override
+    public ServiceResultDto getInformationAboutBasket(String basketHash) {
+        List<BasketAndItemValidatorMessage> enumValidatorMessage = basketAndItemValidator.validateBasket(basketHash);
+        List<String> validatorMessage = numberValidatorMessageConverter
+                .convertValidatorMessageToString(enumValidatorMessage);
+        if (basketAndItemValidator.isBasketAndItemAfterValidationAcceptable(enumValidatorMessage)) {
+            SummaryInfo summaryInfo = basketSummaryInfoMaker.generateSummaryInfo(basketHash);
+            return new ServiceResultDto(validatorMessage, summaryInfo);
+        }
+        return new ServiceResultDto(validatorMessage, null);
+    }
 }

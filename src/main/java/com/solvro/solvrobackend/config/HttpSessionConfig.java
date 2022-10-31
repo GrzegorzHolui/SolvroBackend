@@ -18,7 +18,7 @@ public class HttpSessionConfig {
     @Bean
     public DefaultCookieSerializer customCookieSerializer() {
         DefaultCookieSerializer cookieSerializer = new DefaultCookieSerializer();
-        cookieSerializer.setUseHttpOnlyCookie(false);
+        cookieSerializer.setUseHttpOnlyCookie(true);
         return cookieSerializer;
     }
 }

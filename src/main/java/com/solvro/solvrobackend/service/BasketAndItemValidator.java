@@ -9,7 +9,7 @@ import java.util.Optional;
 
 interface BasketAndItemValidator {
 
-    List<BasketAndItemValidatorMessage> validate(String basketId, String itemId);
+    List<BasketAndItemValidatorMessage> validateBasketAndItem(String basketId, String itemId);
 
 //    boolean isItemInBasket(Basket basket, Item item);
 
@@ -17,4 +17,5 @@ interface BasketAndItemValidator {
 
     boolean isBasketAndItemAfterValidationAcceptable(List<BasketAndItemValidatorMessage> validatorMessage);
 
+    List<BasketAndItemValidatorMessage> validateBasket(String basketHash);
 }

@@ -2,7 +2,6 @@ package com.solvro.solvrobackend.service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -39,4 +38,7 @@ class BasketItemQuantityChanger {
         validatorMessage.removeAll(validatorMessage);
         validatorMessage.add(message);
     }
+
+
+
 }

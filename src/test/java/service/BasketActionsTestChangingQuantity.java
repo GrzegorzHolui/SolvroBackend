@@ -1,11 +1,15 @@
-package com.solvro.solvrobackend.service;
+package service;
 
 import com.solvro.solvrobackend.Repository.BasketRepository;
+import com.solvro.solvrobackend.Repository.DiscountCardRepository;
+import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
+import com.solvro.solvrobackend.service.BasketActions;
+import com.solvro.solvrobackend.service.ServiceConfiguration;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -26,13 +30,14 @@ class BasketActionsTestChangingQuantity implements SampleRepository {
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
+        DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
         ServiceResultDto actualResult = basketActions.changeAmountOfProduct
                 (basket.getBasketHash(), item.getProductHash(), 10);
         //then
         int expectedQuantity = 10;
-        assertThat(actualResult.basketItem().getQuantity()).isEqualTo(expectedQuantity);
+        assertThat(((BasketItem) actualResult.resultOfMethod()).getQuantity()).isEqualTo(expectedQuantity);
     }
 }
