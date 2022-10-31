@@ -4,7 +4,7 @@ import com.solvro.solvrobackend.model.DeliveryType;
 import lombok.Getter;
 
 @Getter
-public class SetterDeliveryTypeRequest {
+public class SetterDeliveryTypeRequestDto {
     String basketHash;
     DeliveryType deliveryType;
 }

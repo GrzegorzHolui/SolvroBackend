@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: Solvro Backend Basket
+  version: 1.0.1
+paths:
+  /addItem:
+    post:
+      summary: addItem to basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemAdderRequestDto"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemAdderRequestDto"
+  /deleteItem:
+    delete:
+      summary: remove item from basket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoveItemRequestDto"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RemoveItemRequestDto"
+  /putDeliveryType:
+    put:
+      summary: set delivery type request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetterDeliveryTypeRequestDto"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SetterDeliveryTypeRequestDto"
+  /addDiscount:
+    post:
+      summary: set discount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetterDiscountRequestDto"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SetterDiscountRequestDto"
+
+  /changeQuantity:
+    put:
+      summary: change the quantity of item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SetterQuantityRequestDto"
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SetterQuantityRequestDto"
+
+  /getBasketInformation:
+    get:
+      summary: change the quantity of item
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SetterQuantityRequestDto"
+
+components:
+  schemas:
+    ItemAdderRequestDto:
+      type: object
+      properties:
+        basketHash:
+          type: string
+        itemHash:
+          type: string
+        itemQuantity:
+          type: number
+
+    RemoveItemRequestDto:
+      type: object
+      properties:
+        basketHash:
+          type: string
+        itemHash:
+          type: string
+
+    SetterDeliveryTypeRequestDto:
+      type: object
+      properties:
+        basketHash:
+          type: string
+        DeliveryType:
+          type: object
+
+    SetterDiscountRequestDto:
+      type: object
+      properties:
+        basketHash:
+          type: string
+        discountCardHash:
+          type: string
+
+    SetterQuantityRequestDto:
+      type: object
+      properties:
+        basketHash:
+          type: string
+        itemHash:
+          type: string
+        newQuantity:
+          type: number

@@ -1,6 +1,5 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.MessagesExceptionMaker;
 import com.solvro.solvrobackend.controllers.RequestsDto.SetterQuantityRequestDto;
 import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
@@ -18,7 +17,7 @@ public class SetterQuantityController {
     BasketActions basketActions;
 
     @PutMapping("/changeQuantity")
-    public ResponseEntity<ServiceResultDto> add(@RequestBody SetterQuantityRequestDto setterQuantityRequestDto) {
+    public ResponseEntity<ServiceResultDto> changeQuantity(@RequestBody SetterQuantityRequestDto setterQuantityRequestDto) {
         ServiceResultDto serviceResultDto =
                 basketActions.changeAmountOfProduct(setterQuantityRequestDto.getBasketHash(),
                         setterQuantityRequestDto.getItemHash(), setterQuantityRequestDto.getNewQuantity());

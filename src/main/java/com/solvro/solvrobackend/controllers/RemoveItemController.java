@@ -1,7 +1,6 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.MessagesExceptionMaker;
-import com.solvro.solvrobackend.controllers.RequestsDto.RemoveBasketRequest;
+import com.solvro.solvrobackend.controllers.RequestsDto.RemoveItemRequestDto;
 import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
@@ -13,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-public class RemoveBasketController {
+public class RemoveItemController {
 
     BasketActions basketActions;
 
     @DeleteMapping("/deleteItem")
-    public ResponseEntity<ServiceResultDto> remove(@RequestBody RemoveBasketRequest removeBasketRequest) {
-        ServiceResultDto serviceResultDto = basketActions.deleteItem(removeBasketRequest.getBasketHash(), removeBasketRequest.getItemHash());
+    public ResponseEntity<ServiceResultDto> remove(@RequestBody RemoveItemRequestDto removeItemRequestDto) {
+        ServiceResultDto serviceResultDto = basketActions.deleteItem(removeItemRequestDto.getBasketHash(), removeItemRequestDto.getItemHash());
         if (!serviceResultDto.message().contains("everything_is_fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto));
         }
