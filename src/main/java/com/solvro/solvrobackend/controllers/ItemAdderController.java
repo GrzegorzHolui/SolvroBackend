@@ -1,7 +1,8 @@
-package com.solvro.solvrobackend.controllers.itemAdder;
+package com.solvro.solvrobackend.controllers;
 
 import com.solvro.solvrobackend.controllers.MessagesExceptionMaker;
-import com.solvro.solvrobackend.controllers.exceptions.ServiceResultException;
+import com.solvro.solvrobackend.controllers.RequestsDto.ItemAdderRequestDto;
+import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import com.solvro.solvrobackend.dto.ServiceResultDto;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,6 @@ public class ItemAdderController {
     @PostMapping("/addItem")
     public ResponseEntity<ServiceResultDto> add(@RequestBody ItemAdderRequestDto itemAdderRequestDto) throws ServiceResultException {
         ServiceResultDto serviceResultDto = basketActions.addItem(itemAdderRequestDto.getBasketHash(), itemAdderRequestDto.getItemHash(), itemAdderRequestDto.getItemQuantity());
-//        ServiceResultDto serviceResultDto = basketActions.addItem(UUID.randomUUID(), UUID.randomUUID(), itemAdderRequestDto.getItemQuantity());
         if (!serviceResultDto.message().contains("everything_is_fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto));
         }

@@ -15,19 +15,19 @@ class BasketItemQuantityChanger {
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
 
+    private final String NO_PRODUCT_IN_BASKET_MESSAGE = "This product is not in your basket";
+
     BasketItem changeQuantity(String basketHash, String itemHash, int newQuantity, List<String> validatorMessage) {
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
-        Item productToChangeQuantity = itemRepository.findByProductHash(itemHash).get();
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        Item productToChangeQuantity = itemRepository.findFirstByProductHash(itemHash).get();
         if (basketAndItemValidator.getProductInBasketItem(currentBasket, productToChangeQuantity).isEmpty()) {
-            addMessageToValidatorMessage(validatorMessage, "This product is not in your basket");
-//            System.out.println(basketItemRepository.findByBasketHash(basketHash));
+            addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET_MESSAGE);
             return null;
         }
         for (BasketItem item : currentBasket.getItemList()) {
             if (item.getItem().equals(productToChangeQuantity)) {
                 item.setQuantity(newQuantity);
                 basketItemRepository.save(currentBasket);
-//                System.out.println(basketItemRepository.findByBasketHash(basketHash));
                 return item;
             }
         }
@@ -38,7 +38,4 @@ class BasketItemQuantityChanger {
         validatorMessage.removeAll(validatorMessage);
         validatorMessage.add(message);
     }
-
-
-
 }

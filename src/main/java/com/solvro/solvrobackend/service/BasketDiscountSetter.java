@@ -17,8 +17,8 @@ class BasketDiscountSetter {
     DiscountCardRepository discountCardRepository;
 
     public DiscountCard setBasketDiscount(String basketHash, String discountCardHash) {
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
-        Optional<DiscountCard> byCardHash = discountCardRepository.findByCardHash(discountCardHash);
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        Optional<DiscountCard> byCardHash = discountCardRepository.findFirstByCardHash(discountCardHash);
         if (byCardHash.isPresent()) {
             currentBasket.getSummaryInfo().getUsedCard().add(byCardHash.get());
             return byCardHash.get();

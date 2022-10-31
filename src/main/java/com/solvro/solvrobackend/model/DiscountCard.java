@@ -17,17 +17,15 @@ public class DiscountCard {
     @Id
     private UUID id;
     private final String cardHash;
-
     private final String discountProductName;
     TypeOfDiscount typeOfDiscount;
     BigDecimal value;
 
-    public DiscountCard(UUID id, String cardHash, String discountProductName, TypeOfDiscount typeOfDiscount, BigDecimal value) {
+    public DiscountCard(String cardHash, String discountProductName, TypeOfDiscount typeOfDiscount, BigDecimal value) {
         this.id = UUID.randomUUID();
         this.cardHash = cardHash;
         this.discountProductName = discountProductName;
         this.typeOfDiscount = typeOfDiscount;
         this.value = value;
-
     }
 }

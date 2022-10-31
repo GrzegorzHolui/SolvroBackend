@@ -24,10 +24,9 @@ public class DiscountCardRepositoryTest implements DiscountCardRepository {
     }
 
     @Override
-    public Optional<DiscountCard> findByCardHash(String hash) {
+    public Optional<DiscountCard> findFirstByCardHash(String hash) {
         return list.stream().filter(discountCard -> discountCard.getCardHash().equals(hash)).findFirst();
     }
-
     @Override
     public <S extends DiscountCard> S save(S entity) {
         return null;

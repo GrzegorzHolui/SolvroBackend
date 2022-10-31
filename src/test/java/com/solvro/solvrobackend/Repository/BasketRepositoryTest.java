@@ -22,7 +22,7 @@ public class BasketRepositoryTest implements BasketRepository {
     }
 
     @Override
-    public Optional<Basket> findByBasketHash(String basketHash) {
+    public Optional<Basket> findFirstByBasketHash(String basketHash) {
         return basketList.stream().filter(basket -> basket.getBasketHash().equals(basketHash)).findFirst();
     }
 

@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.setterquantity;
+package com.solvro.solvrobackend.controllers.RequestsDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,8 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-public class SetterQuantityRequestDto {
+public class RemoveBasketRequest {
     String basketHash;
     String itemHash;
-    int newQuantity;
 }

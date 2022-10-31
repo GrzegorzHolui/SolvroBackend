@@ -10,9 +10,6 @@ import java.util.Optional;
 interface BasketAndItemValidator {
 
     List<BasketAndItemValidatorMessage> validateBasketAndItem(String basketId, String itemId);
-
-//    boolean isItemInBasket(Basket basket, Item item);
-
     Optional<BasketItem> getProductInBasketItem(Basket basket, Item item);
 
     boolean isBasketAndItemAfterValidationAcceptable(List<BasketAndItemValidatorMessage> validatorMessage);

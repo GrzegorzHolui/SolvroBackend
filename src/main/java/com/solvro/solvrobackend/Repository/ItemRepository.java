@@ -10,6 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface ItemRepository extends MongoRepository<Item, UUID> {
-    Optional<Item> findByProductHash(String productHash);
-
+    Optional<Item> findFirstByProductHash(String productHash);
 }

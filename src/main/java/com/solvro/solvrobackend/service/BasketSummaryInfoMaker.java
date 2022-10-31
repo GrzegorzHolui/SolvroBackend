@@ -5,8 +5,8 @@ import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
+import com.solvro.solvrobackend.model.DeliveryType;
 import com.solvro.solvrobackend.model.DiscountCard;
-import com.solvro.solvrobackend.model.Item;
 import com.solvro.solvrobackend.model.SummaryInfo;
 import com.solvro.solvrobackend.model.TypeOfDiscount;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -27,19 +26,23 @@ public class BasketSummaryInfoMaker {
 
     public SummaryInfo generateSummaryInfo(String basketHash) {
 
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
+
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
         BigDecimal priceForProduct = calculatePrice(currentBasket);
         List<DiscountCard> usedCard = currentBasket.getSummaryInfo().getUsedCard();
-        BigDecimal finalPrice = calculateFinalPrice(currentBasket.getItemList(), usedCard);
-        return new SummaryInfo(priceForProduct, null, finalPrice);
+        BigDecimal finalPrice = calculateFinalPrice(currentBasket.getItemList(), usedCard, currentBasket.getSummaryInfo().getDeliveryType());
+        return new SummaryInfo(priceForProduct, currentBasket.getSummaryInfo().getDeliveryType(), usedCard, finalPrice);
     }
 
-    private static BigDecimal calculateFinalPrice(List<BasketItem> currentBasketItems, List<DiscountCard> usedCard) {
+    private static BigDecimal calculateFinalPrice(List<BasketItem> currentBasketItems, List<DiscountCard> usedCard, DeliveryType deliveryType) {
         Map<String, BigDecimal> itemsWithFinalSum = currentBasketItems.stream().collect(Collectors.toMap(key -> key.getItem().getNameOfProduct()
                 , value -> BigDecimal.valueOf(value.getQuantity()).multiply(value.getItem().getPriceForOneItem()),
                 (left, right) -> left, LinkedHashMap::new
         ));
         BigDecimal result = BigDecimal.ZERO;
+        if (deliveryType != null) {
+            result = result.add(deliveryType.getDeliveryPrice());
+        }
         for (String nameOfProduct : itemsWithFinalSum.keySet()) {
             for (DiscountCard discountCard : usedCard) {
                 String discountProductName = discountCard.getDiscountProductName();

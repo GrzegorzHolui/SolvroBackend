@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.exceptions;
+package com.solvro.solvrobackend.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 class ServiceResultExceptionAdvice {
-
     @ResponseBody
     @ExceptionHandler(ServiceResultException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

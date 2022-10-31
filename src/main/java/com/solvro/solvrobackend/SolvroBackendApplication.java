@@ -13,7 +13,4 @@ public class SolvroBackendApplication {
     public static void main(String[] args) {
         SpringApplication.run(SolvroBackendApplication.class, args);
     }
-
-
-
 }

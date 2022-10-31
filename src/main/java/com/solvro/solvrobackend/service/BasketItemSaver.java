@@ -16,15 +16,13 @@ class BasketItemSaver {
     BasketAndItemValidator basketAndItemValidator;
 
     BasketItem saveBasketItem(String basketHash, String itemHash, int itemQuantity) {
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
-        Item currentProduct = itemRepository.findByProductHash(itemHash).get();
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        Item currentProduct = itemRepository.findFirstByProductHash(itemHash).get();
         BasketItem currentBasketItem = BasketItem.builder()
                 .item(currentProduct)
                 .quantity(itemQuantity)
                 .build();
-
         Optional<BasketItem> productInBasketItem = basketAndItemValidator.getProductInBasketItem(currentBasket, currentProduct);
-
         if (productInBasketItem.isEmpty()) {
             currentBasket.getItemList().add(currentBasketItem);
             basketItemRepository.save(currentBasket);

@@ -25,15 +25,12 @@ public class Basket {
     private UUID basketId;
     private String basketHash;
     private List<BasketItem> itemList;
-    private Summary summary;
-
     private SummaryInfo summaryInfo;
 
     public Basket(List<BasketItem> itemList, String basketHash) {
         this.basketId = UUID.randomUUID();
         this.itemList = itemList;
         this.basketHash = basketHash;
-        this.summary = new Summary();
         this.summaryInfo = new SummaryInfo();
     }
 
@@ -41,7 +38,6 @@ public class Basket {
         this.basketId = basketId;
         this.basketHash = basketHash;
         this.itemList = itemList;
-        this.summary = new Summary();
         this.summaryInfo = new SummaryInfo();
     }
 

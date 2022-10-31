@@ -33,18 +33,15 @@ class BasketActionsDiscountSetterTest implements SampleRepository {
 
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
-        DiscountCard discount = new DiscountCard(UUID.randomUUID(), "cardHash", "laptop", TypeOfDiscount.CONSTANT, BigDecimal.TEN);
+        DiscountCard discount = new DiscountCard( "cardHash", "laptop", TypeOfDiscount.CONSTANT, BigDecimal.TEN);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest(List.of(discount));
 
-
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
-
         //when
         ServiceResultDto actualResult = basketActions.setDiscount(basket.getBasketHash(), "cardHash");
         //then
         ServiceResultDto expectedResult = new ServiceResultDto(List.of("everything_is_fine"), discount);
 
         assertThat(actualResult).isEqualTo(expectedResult);
-
     }
 }

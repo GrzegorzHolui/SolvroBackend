@@ -8,6 +8,7 @@ import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
+import com.solvro.solvrobackend.model.DeliveryType;
 import com.solvro.solvrobackend.service.BasketActions;
 import com.solvro.solvrobackend.service.ServiceConfiguration;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,10 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BasketActionsTestChangingQuantity implements SampleRepository {
+ class basketActionsDeliveryTypeSetterTest implements SampleRepository {
 
     @Test
-    void shouldChangeItemQuantity() {
+    void shouldReturnThatEveryThingIsAlrightAfterSetDeliveryType() {
         //given
         Item item = new Item("laptop", BigDecimal.valueOf(10), "hash1");
         BasketItem basketItem = new BasketItem(item, 1);
@@ -32,12 +33,15 @@ class BasketActionsTestChangingQuantity implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository,discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.changeAmountOfProduct
-                (basket.getBasketHash(), item.getProductHash(), 10);
+        ServiceResultDto actualResult = basketActions
+                .setDeliveryType(basket.getBasketHash(), DeliveryType.COURIER_DELIVERY_INPOST);
         //then
-        int expectedQuantity = 10;
-        assertThat(((BasketItem) actualResult.resultOfMethod()).getQuantity()).isEqualTo(expectedQuantity);
+        ServiceResultDto expectedResult =
+                new ServiceResultDto(List.of("everything_is_fine"), DeliveryType.COURIER_DELIVERY_INPOST);
+
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
+
 }

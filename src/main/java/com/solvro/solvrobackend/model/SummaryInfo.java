@@ -20,6 +20,7 @@ import java.util.List;
 public class SummaryInfo {
 
     BigDecimal priceForProducts;
+    DeliveryType deliveryType;
     List<DiscountCard> usedCard = new ArrayList<>();
     BigDecimal finalPrice;
 }

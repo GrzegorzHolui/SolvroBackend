@@ -5,8 +5,6 @@ import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +19,6 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
     private static final int FIRST_INDEX_IN_LIST = 0;
 
     private static final int amountToFindItemInBasket = 1;
-
     public BasketAndItemValidatorImpl(BasketRepository basketItemRepository, ItemRepository itemRepository) {
         this.basketItemRepository = basketItemRepository;
         this.itemRepository = itemRepository;
@@ -35,7 +32,7 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
     @Override
     public List<BasketAndItemValidatorMessage> validateBasket(String basketHash) {
         List<BasketAndItemValidatorMessage> resultValidatorMessages = new ArrayList<>();
-        if (basketItemRepository.findByBasketHash(basketHash).isPresent()) {
+        if (basketItemRepository.findFirstByBasketHash(basketHash).isPresent()) {
             resultValidatorMessages.add(BasketAndItemValidatorMessage.EVERYTHING_IS_FINE);
         } else {
             resultValidatorMessages.add(BasketAndItemValidatorMessage.BASKET_NOT_EXIST);
@@ -73,12 +70,12 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
 
 
     private boolean isBasketHashCorrect(String basketHash) {
-        boolean present = basketItemRepository.findByBasketHash(basketHash).isPresent();
+        boolean present = basketItemRepository.findFirstByBasketHash(basketHash).isPresent();
         return present;
     }
 
     private boolean isItemHashCorrect(String itemHash) {
-        boolean present = itemRepository.findByProductHash(itemHash).isPresent();
+        boolean present = itemRepository.findFirstByProductHash(itemHash).isPresent();
         return present;
     }
 }

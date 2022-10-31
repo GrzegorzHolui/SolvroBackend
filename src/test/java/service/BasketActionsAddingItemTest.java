@@ -20,9 +20,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-class BasketActionsTestAddingItem implements SampleRepository {
-
-
+class BasketActionsAddingItemTest implements SampleRepository {
     @Test
     void shouldReturnThatEveryThingIsAlrightAfterAddItemIfIsBasketItemIsInDataBase() {
         //given

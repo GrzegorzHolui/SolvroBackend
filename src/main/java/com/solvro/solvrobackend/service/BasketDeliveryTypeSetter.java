@@ -13,8 +13,8 @@ class BasketDeliveryTypeSetter {
     BasketAndItemValidator basketAndItemValidator;
 
     public DeliveryType setBasketDeliveryType(String basketHash, DeliveryType deliveryType) {
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
-        currentBasket.getSummary().setDeliveryType(deliveryType);
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        currentBasket.getSummaryInfo().setDeliveryType(deliveryType);
         return deliveryType;
     }
 }

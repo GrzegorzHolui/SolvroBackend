@@ -20,7 +20,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class BasketActionsTestDeletingItem implements SampleRepository {
+class BasketActionsDeletingItemTest implements SampleRepository {
 
     @Test
     void shouldDeleteItemInBasket() {

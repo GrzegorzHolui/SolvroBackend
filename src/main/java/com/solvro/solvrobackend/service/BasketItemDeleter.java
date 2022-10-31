@@ -14,22 +14,19 @@ class BasketItemDeleter {
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
-
-    private static String NO_PRODUCT_IN_BASKET = "This product is not in your basket";
+    private static final String NO_PRODUCT_IN_BASKET = "This product is not in your basket";
 
     BasketItem deleteBasketItem(String basketHash, String itemHash, List<String> validatorMessage) {
-        Basket currentBasket = basketItemRepository.findByBasketHash(basketHash).get();
-        Item productToRemove = itemRepository.findByProductHash(itemHash).get();
+        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        Item productToRemove = itemRepository.findFirstByProductHash(itemHash).get();
         if (basketAndItemValidator.getProductInBasketItem(currentBasket, productToRemove).isEmpty()) {
             addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET);
-//                System.out.println(basketItemRepository.findByHash(basketHash));
             return null;
         }
         for (BasketItem item : currentBasket.getItemList()) {
             if (item.getItem().equals(productToRemove)) {
                 currentBasket.getItemList().remove(item);
                 basketItemRepository.save(currentBasket);
-//                    System.out.println(basketItemRepository.findByHash(basketHash));
                 return item;
             }
         }

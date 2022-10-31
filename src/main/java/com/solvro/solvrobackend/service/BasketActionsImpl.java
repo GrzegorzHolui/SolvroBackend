@@ -17,6 +17,8 @@ public class BasketActionsImpl implements BasketActions {
 
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
+
+
     BasketAndItemValidator basketAndItemValidator;
     ValidatorMessageConverter numberValidatorMessageConverter;
     BasketItemSaver basketItemSaver;
@@ -47,7 +49,6 @@ public class BasketActionsImpl implements BasketActions {
             BasketItem resultDeletion = basketItemDeleter.deleteBasketItem(basketHash, itemHash, validatorMessage);
             return new ServiceResultDto(validatorMessage, resultDeletion);
         }
-//        System.out.println(basketItemRepository.findByHash(basketHash));
         return new ServiceResultDto(validatorMessage, null);
     }
 

@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.exceptions;
+package com.solvro.solvrobackend.exceptions;
 
 public class ServiceResultException extends RuntimeException {
     public ServiceResultException(String textError) {
