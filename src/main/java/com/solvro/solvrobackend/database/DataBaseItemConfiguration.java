@@ -14,15 +14,13 @@ import java.util.List;
 
 @Configuration
 public class DataBaseItemConfiguration {
-
     @Bean
     ItemRepository fillItemRepoistory(ItemRepository itemRepository) {
-        Item laptop = new Item("laptop", BigDecimal.TEN, "laptophash");
-        Item torch = new Item("torch", BigDecimal.ONE, "53125dcc-5900-11ed-9b6a-0242ac120002");
-        Item pc = new Item("pc", BigDecimal.TEN, "58e67602-5900-11ed-9b6a-0242ac120002");
+        Item laptop = new Item("laptop", BigDecimal.TEN, "laptopHash");
+        Item torch = new Item("torch", BigDecimal.ONE, "torchHash");
+        Item pc = new Item("pc", BigDecimal.TEN, "pcHash");
         List<Item> itemList = new ArrayList<>(List.of(laptop, torch, pc));
         itemRepository.saveAll(itemList);
-        System.out.println(itemRepository.findFirstByProductHash("laptophash"));
         return itemRepository;
     }
 

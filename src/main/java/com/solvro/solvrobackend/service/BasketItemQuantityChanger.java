@@ -20,7 +20,7 @@ class BasketItemQuantityChanger {
     BasketItem changeQuantity(String basketHash, String itemHash, int newQuantity, List<String> validatorMessage) {
         Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
         Item productToChangeQuantity = itemRepository.findFirstByProductHash(itemHash).get();
-        if (basketAndItemValidator.getProductInBasketItem(currentBasket, productToChangeQuantity).isEmpty()) {
+        if (basketAndItemValidator.findFirstProductInBasketItem(currentBasket, productToChangeQuantity).isEmpty()) {
             addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET_MESSAGE);
             return null;
         }

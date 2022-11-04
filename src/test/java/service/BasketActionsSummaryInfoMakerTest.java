@@ -4,7 +4,7 @@ import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.dto.ServiceSummaryResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.DeliveryType;
@@ -38,11 +38,11 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions
+        ServiceSummaryResultDto actualResult = basketActions
                 .getInformationAboutBasket(basket.getBasketHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29)));
+        ServiceSummaryResultDto expectedResult =
+                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29)));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -60,12 +60,11 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions
+        ServiceSummaryResultDto actualResult = basketActions
                 .getInformationAboutBasket(basket.getBasketHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29.0)));
-
+        ServiceSummaryResultDto expectedResult =
+                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29.0)));
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
@@ -82,11 +81,11 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions
+        ServiceSummaryResultDto actualResult = basketActions
                 .getInformationAboutBasket(basket.getBasketHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), null, List.of(discountCard), BigDecimal.valueOf(9.0)));
+        ServiceSummaryResultDto expectedResult =
+                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), null, List.of(discountCard), BigDecimal.valueOf(9.0)));
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 

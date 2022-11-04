@@ -20,7 +20,7 @@ public class DatabaseChangeLog {
 //        System.out.println("TESTUJEMY");
 //
 ////        5fc03087-d265-11e7-b8c6-83e29cd24f4c
-//        Item item = new Item("c19d8b82-553f-11ed-bdc3-0242ac120002", BigDecimal.ONE, "itemHash");
+//        basketItem item = new basketItem("c19d8b82-553f-11ed-bdc3-0242ac120002", BigDecimal.ONE, "itemHash");
 //        List<BasketItem> basketItemList = new ArrayList<>(List.of(new BasketItem(item, 1)));
 //        Basket basket = new Basket(basketItemList, "testBasketHash");
 //        ticketRepository.save(basket);

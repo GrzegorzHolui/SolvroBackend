@@ -19,15 +19,13 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class BasketSummaryInfoMaker {
-    BasketRepository basketItemRepository;
+    BasketRepository basketRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
     DiscountCardRepository discountCardRepository;
 
     public SummaryInfo generateSummaryInfo(String basketHash) {
-
-
-        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+        Basket currentBasket = basketRepository.findFirstByBasketHash(basketHash).get();
         BigDecimal priceForProduct = calculatePrice(currentBasket);
         List<DiscountCard> usedCard = currentBasket.getSummaryInfo().getUsedCard();
         BigDecimal finalPrice = calculateFinalPrice(currentBasket.getItemList(), usedCard, currentBasket.getSummaryInfo().getDeliveryType());
@@ -37,7 +35,7 @@ public class BasketSummaryInfoMaker {
     private static BigDecimal calculateFinalPrice(List<BasketItem> currentBasketItems, List<DiscountCard> usedCard, DeliveryType deliveryType) {
         Map<String, BigDecimal> itemsWithFinalSum = currentBasketItems.stream().collect(Collectors.toMap(key -> key.getItem().getNameOfProduct()
                 , value -> BigDecimal.valueOf(value.getQuantity()).multiply(value.getItem().getPriceForOneItem()),
-                (left, right) -> left, LinkedHashMap::new
+                (left, right) -> left, () -> new LinkedHashMap<>()
         ));
         BigDecimal result = BigDecimal.ZERO;
         if (deliveryType != null) {
@@ -63,6 +61,10 @@ public class BasketSummaryInfoMaker {
     }
 
     private static BigDecimal calculatePrice(Basket currentBasket) {
-        return currentBasket.getItemList().stream().map((basketItem) -> basketItem.getItem().getPriceForOneItem()).reduce(BigDecimal::add).orElseThrow(() -> new RuntimeException("sth wrong in counting product price"));
+        return currentBasket.getItemList().stream()
+                .map(basketItem -> BigDecimal.valueOf(basketItem.getQuantity())
+                        .multiply(basketItem.getItem().getPriceForOneItem()))
+                .reduce((previousPrice, currentPrice) -> previousPrice.add(currentPrice))
+                .orElseThrow();
     }
 }

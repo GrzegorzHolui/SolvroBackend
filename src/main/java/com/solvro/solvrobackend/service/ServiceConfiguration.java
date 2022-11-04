@@ -20,8 +20,7 @@ public class ServiceConfiguration {
         BasketItemQuantityChanger basketItemQuantityChanger = new BasketItemQuantityChanger(basketItemRepository, itemRepository, basketAndItemValidator);
         BasketDeliveryTypeSetter basketDeliveryTypeSetter = new BasketDeliveryTypeSetter(basketItemRepository, itemRepository, basketAndItemValidator);
         BasketSummaryInfoMaker basketSummaryInfoMaker = new BasketSummaryInfoMaker(basketItemRepository, itemRepository, basketAndItemValidator, discountCardRepository);
-        return new BasketActionsImpl(basketItemRepository, itemRepository,
-                basketAndItemValidator, numberValidatorMessageConverter,
+        return new BasketActionsImpl(basketAndItemValidator, numberValidatorMessageConverter,
                 basketItemSaver, basketItemDeleter,
                 basketItemQuantityChanger, basketDeliveryTypeSetter, basketDiscountSetter, basketSummaryInfoMaker);
     }

@@ -15,6 +15,7 @@ class BasketDeliveryTypeSetter {
     public DeliveryType setBasketDeliveryType(String basketHash, DeliveryType deliveryType) {
         Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
         currentBasket.getSummaryInfo().setDeliveryType(deliveryType);
+        basketItemRepository.save(currentBasket);
         return deliveryType;
     }
 }

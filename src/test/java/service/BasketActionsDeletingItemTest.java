@@ -6,7 +6,7 @@ import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.Repository.ItemRepositoryTest;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.dto.ServiceCrudResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -35,10 +35,10 @@ class BasketActionsDeletingItemTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), item.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), item.getProductHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 1));
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been deleted"), new BasketItem(item, 1));
 
         assertThat(actualResult).isEqualTo(expectedResult);
 
@@ -58,10 +58,10 @@ class BasketActionsDeletingItemTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("This product is not in your basket"), null);
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("This product is not in your basket"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -80,10 +80,10 @@ class BasketActionsDeletingItemTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("item_doesn't_exist"), null);
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("item_doesn't_exist"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

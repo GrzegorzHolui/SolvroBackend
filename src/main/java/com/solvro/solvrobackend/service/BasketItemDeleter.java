@@ -6,10 +6,12 @@ import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @AllArgsConstructor
+@Component
 class BasketItemDeleter {
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
@@ -19,7 +21,7 @@ class BasketItemDeleter {
     BasketItem deleteBasketItem(String basketHash, String itemHash, List<String> validatorMessage) {
         Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
         Item productToRemove = itemRepository.findFirstByProductHash(itemHash).get();
-        if (basketAndItemValidator.getProductInBasketItem(currentBasket, productToRemove).isEmpty()) {
+        if (basketAndItemValidator.findFirstProductInBasketItem(currentBasket, productToRemove).isEmpty()) {
             addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET);
             return null;
         }

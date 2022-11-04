@@ -4,7 +4,8 @@ import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.dto.ServiceChangeQuantityResultDto;
+import com.solvro.solvrobackend.dto.ServiceCrudResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -15,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,11 +34,13 @@ class BasketActionsChangingQuantityTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.changeAmountOfProduct
+        ServiceChangeQuantityResultDto actualResult = basketActions.changeAmountOfProduct
                 (basket.getBasketHash(), item.getProductHash(), 10);
         //then
         int expectedQuantity = 10;
-        assertThat(((BasketItem) actualResult.resultOfMethod()).getQuantity()).isEqualTo(expectedQuantity);
+        List<String> expectedMessage = List.of("everything_is_fine", "item has another quantity");
+        assertThat((actualResult.message())).isEqualTo(expectedMessage);
+        assertThat((actualResult.quantity())).isEqualTo(expectedQuantity);
     }
 
     @Test
@@ -54,12 +56,10 @@ class BasketActionsChangingQuantityTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.changeAmountOfProduct
+        ServiceChangeQuantityResultDto actualResult = basketActions.changeAmountOfProduct
                 ("falseBasketHash", item.getProductHash(), 10);
         //then
-        ServiceResultDto expected = new ServiceResultDto(List.of("basket_doesn't_exist"), null);
+        ServiceChangeQuantityResultDto expected = new ServiceChangeQuantityResultDto(List.of("basket_doesn't_exist"), null);
         assertThat(actualResult).isEqualTo(expected);
     }
-
-
 }

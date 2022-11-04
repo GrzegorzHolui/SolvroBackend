@@ -1,26 +1,25 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.SetterDiscountRequestDto;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.controllers.RequestsDto.AdderDiscountRequestDto;
+import com.solvro.solvrobackend.dto.ServiceDiscountCardResultDto;
 import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-public class SetterDiscountController {
+public class AdderDiscountController {
     BasketActions basketActions;
 
     @PostMapping("/addDiscount")
-    public ResponseEntity<ServiceResultDto> add(@RequestBody SetterDiscountRequestDto setterDiscountRequestDto) throws ServiceResultException {
-        ServiceResultDto serviceResultDto = basketActions.setDiscount(setterDiscountRequestDto.getBasketHash(), setterDiscountRequestDto.getDiscountCardHash());
+    public ResponseEntity<ServiceDiscountCardResultDto> add(@RequestBody AdderDiscountRequestDto adderDiscountRequestDto) throws ServiceResultException {
+        ServiceDiscountCardResultDto serviceResultDto = basketActions.addDiscount(adderDiscountRequestDto.getBasketHash(), adderDiscountRequestDto.getDiscountCardHash());
         if (!serviceResultDto.message().contains("everything_is_fine")) {
-            throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto));
+            throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);
     }

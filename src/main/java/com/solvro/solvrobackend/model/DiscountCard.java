@@ -1,7 +1,10 @@
 package com.solvro.solvrobackend.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,14 +13,18 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 @Document(collection = "discountCard")
 public class DiscountCard {
     @Id
+    @EqualsAndHashCode.Exclude
     private UUID id;
-    private final String cardHash;
-    private final String discountProductName;
+    private  String cardHash;
+    private  String discountProductName;
     TypeOfDiscount typeOfDiscount;
     BigDecimal value;
 
@@ -28,4 +35,5 @@ public class DiscountCard {
         this.typeOfDiscount = typeOfDiscount;
         this.value = value;
     }
+
 }

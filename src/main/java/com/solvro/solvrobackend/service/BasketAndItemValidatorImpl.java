@@ -5,20 +5,21 @@ import com.solvro.solvrobackend.Repository.ItemRepository;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Component
 class BasketAndItemValidatorImpl implements BasketAndItemValidator {
-
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
-
     private static final int ACCEPTABLE_MESSAGE_SIZE = 1;
     private static final int FIRST_INDEX_IN_LIST = 0;
 
     private static final int amountToFindItemInBasket = 1;
+
     public BasketAndItemValidatorImpl(BasketRepository basketItemRepository, ItemRepository itemRepository) {
         this.basketItemRepository = basketItemRepository;
         this.itemRepository = itemRepository;
@@ -51,7 +52,7 @@ class BasketAndItemValidatorImpl implements BasketAndItemValidator {
         return resultValidatorMessages;
     }
 
-    public Optional<BasketItem> getProductInBasketItem(Basket basket, Item item) {
+    public Optional<BasketItem> findFirstProductInBasketItem(Basket basket, Item item) {
         return basket.getItemList().stream()
                 .filter(basketItem -> basketItem.getItem().equals(item))
                 .findFirst();

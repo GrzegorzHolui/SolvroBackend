@@ -4,7 +4,7 @@ import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import com.solvro.solvrobackend.dto.ServiceSetDeliveryTypeResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
@@ -20,7 +20,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
- class basketActionsDeliveryTypeSetterTest implements SampleRepository {
+class basketActionsDeliveryTypeSetterTest implements SampleRepository {
 
     @Test
     void shouldReturnThatEveryThingIsAlrightAfterSetDeliveryType() {
@@ -33,13 +33,13 @@ import static org.assertj.core.api.Assertions.assertThat;
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository,discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions
+        ServiceSetDeliveryTypeResultDto actualResult = basketActions
                 .setDeliveryType(basket.getBasketHash(), DeliveryType.COURIER_DELIVERY_INPOST);
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), DeliveryType.COURIER_DELIVERY_INPOST);
+        ServiceSetDeliveryTypeResultDto expectedResult =
+                new ServiceSetDeliveryTypeResultDto(List.of("everything_is_fine", "DeliveryType has been added"), DeliveryType.COURIER_DELIVERY_INPOST);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

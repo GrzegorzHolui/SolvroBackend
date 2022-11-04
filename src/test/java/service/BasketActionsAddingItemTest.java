@@ -4,10 +4,10 @@ import com.solvro.solvrobackend.Repository.BasketRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.DiscountCardRepositoryTest;
 import com.solvro.solvrobackend.Repository.ItemRepository;
+import com.solvro.solvrobackend.dto.ServiceCrudResultDto;
 import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
-import com.solvro.solvrobackend.dto.ServiceResultDto;
 import com.solvro.solvrobackend.service.BasketActions;
 import com.solvro.solvrobackend.service.ServiceConfiguration;
 import org.junit.jupiter.api.Test;
@@ -34,10 +34,10 @@ class BasketActionsAddingItemTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 11));
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been added"), new BasketItem(item, 11));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -54,10 +54,10 @@ class BasketActionsAddingItemTest implements SampleRepository {
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("everything_is_fine"), new BasketItem(item, 1));
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been added"), new BasketItem(item, 1));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -75,10 +75,10 @@ class BasketActionsAddingItemTest implements SampleRepository {
 
         BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
         //when
-        ServiceResultDto actualResult = basketActions.addItem(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 10);
         //then
-        ServiceResultDto expectedResult =
-                new ServiceResultDto(List.of("item_doesn't_exist", "basket_doesn't_exist"), null);
+        ServiceCrudResultDto expectedResult =
+                new ServiceCrudResultDto(List.of("item_doesn't_exist", "basket_doesn't_exist"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

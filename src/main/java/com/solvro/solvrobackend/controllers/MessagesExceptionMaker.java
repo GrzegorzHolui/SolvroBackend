@@ -1,12 +1,12 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.dto.ServiceResultDto;
+import java.util.List;
 
 
 class MessagesExceptionMaker {
-    public static String makeMessage(ServiceResultDto serviceResultDto) {
-        return serviceResultDto.message().stream()
+    public static String makeMessage(List<String> exceptionMessage) {
+        return exceptionMessage.stream()
                 .reduce((currentText, nextText) -> currentText + " , " + nextText)
-                .orElse("sth got wrong please contact with man who made this app");
+                .orElse("sth was wrong");
     }
 }
