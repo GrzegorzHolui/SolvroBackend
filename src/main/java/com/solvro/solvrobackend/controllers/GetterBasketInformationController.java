@@ -1,7 +1,7 @@
 package com.solvro.solvrobackend.controllers;
 
 import com.solvro.solvrobackend.dto.ServiceSummaryResultDto;
-import exceptions.ServiceResultException;
+import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

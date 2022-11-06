@@ -2,7 +2,7 @@ package com.solvro.solvrobackend.controllers;
 
 import com.solvro.solvrobackend.controllers.requestsdto.AdderDiscountRequestDto;
 import com.solvro.solvrobackend.dto.ServiceDiscountCardResultDto;
-import exceptions.ServiceResultException;
+import com.solvro.solvrobackend.exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
