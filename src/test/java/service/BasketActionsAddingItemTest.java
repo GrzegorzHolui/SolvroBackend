@@ -32,12 +32,13 @@ class BasketActionsAddingItemTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository,
+                discountCardRepository, basket);
         //when
-        ServiceCrudResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(item.getProductHash(), 10);
         //then
         ServiceCrudResultDto expectedResult =
-                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been added"), new BasketItem(item, 11));
+                new ServiceCrudResultDto(List.of("everything is fine", "item has been added"), new BasketItem(item, 11));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -52,18 +53,19 @@ class BasketActionsAddingItemTest implements SampleRepository {
         ItemRepository itemRepository = sampleItemRepository(item);
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository,
+                discountCardRepository, basket);
         //when
-        ServiceCrudResultDto actualResult = basketActions.addItem(basket.getBasketHash(), item.getProductHash(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(item.getProductHash(), 10);
         //then
         ServiceCrudResultDto expectedResult =
-                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been added"), new BasketItem(item, 1));
+                new ServiceCrudResultDto(List.of("everything is fine", "item has been added"), new BasketItem(item, 1));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
-    void shouldReturnThatBasketAndItemDoesntExist() {
+    void shouldReturnItemDoesntExist() {
         //given
         Item item = new Item("laptop", BigDecimal.valueOf(10), "hash1");
         BasketItem basketItem = new BasketItem(item, 1);
@@ -73,12 +75,13 @@ class BasketActionsAddingItemTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
-        ServiceCrudResultDto actualResult = basketActions.addItem(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 10);
+        ServiceCrudResultDto actualResult = basketActions.addItem(UUID.randomUUID().toString(), 10);
         //then
         ServiceCrudResultDto expectedResult =
-                new ServiceCrudResultDto(List.of("item_doesn't_exist", "basket_doesn't_exist"), null);
+                new ServiceCrudResultDto(List.of("item doesn't exist"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

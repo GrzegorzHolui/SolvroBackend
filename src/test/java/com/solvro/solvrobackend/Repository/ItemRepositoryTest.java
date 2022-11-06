@@ -13,19 +13,15 @@ import java.util.UUID;
 import java.util.function.Function;
 
 public class ItemRepositoryTest implements ItemRepository {
-
     List<Item> itemList;
-
     public ItemRepositoryTest(List<Item> itemList) {
         this.itemList = itemList;
     }
-
     @Override
     public Optional<Item> findFirstByProductHash(String productHash) {
         return itemList.stream()
                 .filter(item -> item.getProductHash().equals(productHash)).findFirst();
     }
-
     @Override
     public <S extends Item> List<S> saveAll(Iterable<S> entities) {
         return null;

@@ -6,29 +6,28 @@ import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @AllArgsConstructor
-@Component
 class BasketItemDeleter {
+
+    Basket basket;
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
     private static final String NO_PRODUCT_IN_BASKET = "This product is not in your basket";
 
-    BasketItem deleteBasketItem(String basketHash, String itemHash, List<String> validatorMessage) {
-        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+    BasketItem deleteBasketItem(String itemHash, List<String> validatorMessage) {
         Item productToRemove = itemRepository.findFirstByProductHash(itemHash).get();
-        if (basketAndItemValidator.findFirstProductInBasketItem(currentBasket, productToRemove).isEmpty()) {
+        if (basketAndItemValidator.findFirstProductInBasketItem(basket, productToRemove).isEmpty()) {
             addMessageToValidatorMessage(validatorMessage, NO_PRODUCT_IN_BASKET);
             return null;
         }
-        for (BasketItem item : currentBasket.getItemList()) {
+        for (BasketItem item : basket.getItemList()) {
             if (item.getItem().equals(productToRemove)) {
-                currentBasket.getItemList().remove(item);
-                basketItemRepository.save(currentBasket);
+                basket.getItemList().remove(item);
+                basketItemRepository.save(basket);
                 return item;
             }
         }

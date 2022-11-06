@@ -8,16 +8,16 @@ import com.solvro.solvrobackend.dto.ServiceSetDeliveryTypeResultDto;
 import com.solvro.solvrobackend.model.DeliveryType;
 
 public interface BasketActions {
-    ServiceCrudResultDto addItem(String basketHash, String itemHash, int itemQuantity);
+    ServiceCrudResultDto addItem(String itemHash, int itemQuantity);
 
-    ServiceCrudResultDto deleteItem(String basketHash, String itemHash);
+    ServiceCrudResultDto deleteItem(String itemHash);
 
-    ServiceChangeQuantityResultDto changeAmountOfProduct(String basketHash, String itemHash, int newQuantity);
+    ServiceChangeQuantityResultDto changeAmountOfProduct(String itemHash, int newQuantity);
 
-    ServiceSetDeliveryTypeResultDto setDeliveryType(String basketHash, DeliveryType deliveryType);
+    ServiceSetDeliveryTypeResultDto setDeliveryType(DeliveryType deliveryType);
 
-    ServiceDiscountCardResultDto addDiscount(String basketHash, String discountCardHash);
+    ServiceDiscountCardResultDto addDiscount(String discountCardHash);
 
-    ServiceSummaryResultDto getInformationAboutBasket(String basketHash);
+    ServiceSummaryResultDto getInformationAboutBasket();
 
 }

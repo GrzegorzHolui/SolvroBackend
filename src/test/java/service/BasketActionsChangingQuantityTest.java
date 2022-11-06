@@ -32,13 +32,14 @@ class BasketActionsChangingQuantityTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
         ServiceChangeQuantityResultDto actualResult = basketActions.changeAmountOfProduct
-                (basket.getBasketHash(), item.getProductHash(), 10);
+                (item.getProductHash(), 10);
         //then
         int expectedQuantity = 10;
-        List<String> expectedMessage = List.of("everything_is_fine", "item has another quantity");
+        List<String> expectedMessage = List.of("everything is fine", "item has another quantity");
         assertThat((actualResult.message())).isEqualTo(expectedMessage);
         assertThat((actualResult.quantity())).isEqualTo(expectedQuantity);
     }
@@ -54,12 +55,13 @@ class BasketActionsChangingQuantityTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
         ServiceChangeQuantityResultDto actualResult = basketActions.changeAmountOfProduct
-                ("falseBasketHash", item.getProductHash(), 10);
+                ("falseBasketHash", 10);
         //then
-        ServiceChangeQuantityResultDto expected = new ServiceChangeQuantityResultDto(List.of("basket_doesn't_exist"), null);
+        ServiceChangeQuantityResultDto expected = new ServiceChangeQuantityResultDto(List.of("item doesn't exist"), null);
         assertThat(actualResult).isEqualTo(expected);
     }
 }

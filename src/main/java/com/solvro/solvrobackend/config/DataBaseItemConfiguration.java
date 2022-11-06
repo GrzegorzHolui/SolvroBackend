@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.database;
+package com.solvro.solvrobackend.config;
 
 import com.solvro.solvrobackend.Repository.DiscountCardRepository;
 import com.solvro.solvrobackend.Repository.ItemRepository;
@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 public class DataBaseItemConfiguration {
     @Bean
-    ItemRepository fillItemRepoistory(ItemRepository itemRepository) {
+    ItemRepository fillItemRepository(ItemRepository itemRepository) {
         Item laptop = new Item("laptop", BigDecimal.TEN, "laptopHash");
         Item torch = new Item("torch", BigDecimal.ONE, "torchHash");
         Item pc = new Item("pc", BigDecimal.TEN, "pcHash");

@@ -33,12 +33,13 @@ class BasketActionsDeletingItemTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
-        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), item.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(item.getProductHash());
         //then
         ServiceCrudResultDto expectedResult =
-                new ServiceCrudResultDto(List.of("everything_is_fine", "item has been deleted"), new BasketItem(item, 1));
+                new ServiceCrudResultDto(List.of("everything is fine", "item has been deleted"), new BasketItem(item, 1));
 
         assertThat(actualResult).isEqualTo(expectedResult);
 
@@ -56,9 +57,10 @@ class BasketActionsDeletingItemTest implements SampleRepository {
         BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
-        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(itemToFind.getProductHash());
         //then
         ServiceCrudResultDto expectedResult =
                 new ServiceCrudResultDto(List.of("This product is not in your basket"), null);
@@ -78,12 +80,14 @@ class BasketActionsDeletingItemTest implements SampleRepository {
         BasketRepository basketItemRepository = new BasketRepositoryTest(new ArrayList<>(List.of(basket)));
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
+
         //when
-        ServiceCrudResultDto actualResult = basketActions.deleteItem(basket.getBasketHash(), itemToFind.getProductHash());
+        ServiceCrudResultDto actualResult = basketActions.deleteItem(itemToFind.getProductHash());
         //then
         ServiceCrudResultDto expectedResult =
-                new ServiceCrudResultDto(List.of("item_doesn't_exist"), null);
+                new ServiceCrudResultDto(List.of("item doesn't exist"), null);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

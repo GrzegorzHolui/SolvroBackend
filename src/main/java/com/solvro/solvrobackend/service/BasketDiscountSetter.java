@@ -11,17 +11,17 @@ import java.util.Optional;
 
 @AllArgsConstructor
 class BasketDiscountSetter {
+    Basket basket;
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
     DiscountCardRepository discountCardRepository;
 
-    public DiscountCard setBasketDiscount(String basketHash, String discountCardHash) {
-        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+    public DiscountCard setBasketDiscount(String discountCardHash) {
         Optional<DiscountCard> byCardHash = discountCardRepository.findFirstByCardHash(discountCardHash);
         if (byCardHash.isPresent()) {
-            currentBasket.getSummaryInfo().getUsedCard().add(byCardHash.get());
-            basketItemRepository.save(currentBasket);
+            basket.getSummaryInfo().getUsedCard().add(byCardHash.get());
+            basketItemRepository.save(basket);
             return byCardHash.get();
         }
         return null;

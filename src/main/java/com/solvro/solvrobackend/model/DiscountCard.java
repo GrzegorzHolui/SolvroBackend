@@ -23,8 +23,8 @@ public class DiscountCard {
     @Id
     @EqualsAndHashCode.Exclude
     private UUID id;
-    private  String cardHash;
-    private  String discountProductName;
+    private String cardHash;
+    private String discountProductName;
     TypeOfDiscount typeOfDiscount;
     BigDecimal value;
 

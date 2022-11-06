@@ -1,15 +1,10 @@
 package com.solvro.solvrobackend.service;
 
 enum BasketAndItemValidatorMessage {
-    ITEM_NOT_EXIST("item_doesn't_exist"), BASKET_NOT_EXIST("basket_doesn't_exist"), EVERYTHING_IS_FINE("everything_is_fine");
+    ITEM_NOT_EXIST("item doesn't exist"), BASKET_NOT_EXIST("basket doesn't exist"), EVERYTHING_IS_FINE("everything is fine");
 
     final String message;
-
     BasketAndItemValidatorMessage(String message) {
         this.message = message;
-    }
-
-    public boolean isEverythingFine() {
-        return EVERYTHING_IS_FINE.equals(this);
     }
 }

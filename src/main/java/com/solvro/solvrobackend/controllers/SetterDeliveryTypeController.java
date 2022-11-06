@@ -1,8 +1,8 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.SetterDeliveryTypeRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.SetterDeliveryTypeRequestDto;
 import com.solvro.solvrobackend.dto.ServiceSetDeliveryTypeResultDto;
-import com.solvro.solvrobackend.exceptions.ServiceResultException;
+import exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,8 @@ public class SetterDeliveryTypeController {
     @PutMapping("/putDeliveryType")
     public ResponseEntity<ServiceSetDeliveryTypeResultDto> add(@RequestBody SetterDeliveryTypeRequestDto setterDeliveryTypeRequestDto) {
         ServiceSetDeliveryTypeResultDto serviceResultDto =
-                basketActions.setDeliveryType(setterDeliveryTypeRequestDto.getBasketHash(),
-                        setterDeliveryTypeRequestDto.getDeliveryType());
-        if (!serviceResultDto.message().contains("everything_is_fine")) {
+                basketActions.setDeliveryType(setterDeliveryTypeRequestDto.getDeliveryType());
+        if (!serviceResultDto.message().contains("everything is fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);

@@ -19,17 +19,17 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class BasketSummaryInfoMaker {
+    Basket basket;
     BasketRepository basketRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
     DiscountCardRepository discountCardRepository;
 
-    public SummaryInfo generateSummaryInfo(String basketHash) {
-        Basket currentBasket = basketRepository.findFirstByBasketHash(basketHash).get();
-        BigDecimal priceForProduct = calculatePrice(currentBasket);
-        List<DiscountCard> usedCard = currentBasket.getSummaryInfo().getUsedCard();
-        BigDecimal finalPrice = calculateFinalPrice(currentBasket.getItemList(), usedCard, currentBasket.getSummaryInfo().getDeliveryType());
-        return new SummaryInfo(priceForProduct, currentBasket.getSummaryInfo().getDeliveryType(), usedCard, finalPrice);
+    public SummaryInfo generateSummaryInfo() {
+        BigDecimal priceForProduct = calculatePrice(basket.getItemList());
+        List<DiscountCard> usedCard = basket.getSummaryInfo().getUsedCard();
+        BigDecimal finalPrice = calculateFinalPrice(basket.getItemList(), usedCard, basket.getSummaryInfo().getDeliveryType());
+        return new SummaryInfo(priceForProduct, basket.getSummaryInfo().getDeliveryType(), usedCard, finalPrice);
     }
 
     private static BigDecimal calculateFinalPrice(List<BasketItem> currentBasketItems, List<DiscountCard> usedCard, DeliveryType deliveryType) {
@@ -41,6 +41,14 @@ public class BasketSummaryInfoMaker {
         if (deliveryType != null) {
             result = result.add(deliveryType.getDeliveryPrice());
         }
+        if (usedCard.isEmpty()) {
+            BigDecimal currentResult = itemsWithFinalSum.values().stream()
+                    .reduce((previousPrice, currentPrice) -> previousPrice.add(currentPrice))
+                    .orElseThrow();
+            result = result.add(currentResult);
+            return result;
+        }
+
         for (String nameOfProduct : itemsWithFinalSum.keySet()) {
             for (DiscountCard discountCard : usedCard) {
                 String discountProductName = discountCard.getDiscountProductName();
@@ -58,10 +66,11 @@ public class BasketSummaryInfoMaker {
             }
         }
         return result;
+
     }
 
-    private static BigDecimal calculatePrice(Basket currentBasket) {
-        return currentBasket.getItemList().stream()
+    private static BigDecimal calculatePrice(List<BasketItem> basketItemList) {
+        return basketItemList.stream()
                 .map(basketItem -> BigDecimal.valueOf(basketItem.getQuantity())
                         .multiply(basketItem.getItem().getPriceForOneItem()))
                 .reduce((previousPrice, currentPrice) -> previousPrice.add(currentPrice))

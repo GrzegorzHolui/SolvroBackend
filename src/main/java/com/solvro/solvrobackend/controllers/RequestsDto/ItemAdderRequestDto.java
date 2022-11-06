@@ -1,5 +1,4 @@
-package com.solvro.solvrobackend.controllers.RequestsDto;
-
+package com.solvro.solvrobackend.controllers.requestsdto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +13,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ItemAdderRequestDto {
-    String basketHash;
     String itemHash;
     int itemQuantity;
 }

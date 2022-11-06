@@ -33,13 +33,14 @@ class basketActionsDeliveryTypeSetterTest implements SampleRepository {
         BasketRepository basketItemRepository = sampleBasketRepository(basket);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest();
 
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
         ServiceSetDeliveryTypeResultDto actualResult = basketActions
-                .setDeliveryType(basket.getBasketHash(), DeliveryType.COURIER_DELIVERY_INPOST);
+                .setDeliveryType(DeliveryType.COURIER_DELIVERY_INPOST);
         //then
         ServiceSetDeliveryTypeResultDto expectedResult =
-                new ServiceSetDeliveryTypeResultDto(List.of("everything_is_fine", "DeliveryType has been added"), DeliveryType.COURIER_DELIVERY_INPOST);
+                new ServiceSetDeliveryTypeResultDto(List.of("everything is fine", "DeliveryType has been added"), DeliveryType.COURIER_DELIVERY_INPOST);
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }

@@ -1,8 +1,8 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.SetterQuantityRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.SetterQuantityRequestDto;
 import com.solvro.solvrobackend.dto.ServiceChangeQuantityResultDto;
-import com.solvro.solvrobackend.exceptions.ServiceResultException;
+import exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +19,9 @@ public class SetterQuantityController {
     @PutMapping("/changeQuantity")
     public ResponseEntity<ServiceChangeQuantityResultDto> changeQuantity(@RequestBody SetterQuantityRequestDto setterQuantityRequestDto) {
         ServiceChangeQuantityResultDto serviceResultDto =
-                basketActions.changeAmountOfProduct(setterQuantityRequestDto.getBasketHash(),
+                basketActions.changeAmountOfProduct(
                         setterQuantityRequestDto.getItemHash(), setterQuantityRequestDto.getNewQuantity());
-        if (!serviceResultDto.message().contains("everything_is_fine")) {
+        if (!serviceResultDto.message().contains("everything is fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);

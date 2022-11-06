@@ -1,8 +1,8 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.ItemAdderRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.ItemAdderRequestDto;
 import com.solvro.solvrobackend.dto.ServiceCrudResultDto;
-import com.solvro.solvrobackend.exceptions.ServiceResultException;
+import exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +18,8 @@ public class ItemAdderController {
 
     @PostMapping("/addItem")
     public ResponseEntity<ServiceCrudResultDto> add(@RequestBody ItemAdderRequestDto itemAdderRequestDto) throws ServiceResultException {
-        ServiceCrudResultDto serviceResultDto = basketActions.addItem(itemAdderRequestDto.getBasketHash(), itemAdderRequestDto.getItemHash(), itemAdderRequestDto.getItemQuantity());
-        if (!serviceResultDto.message().contains("everything_is_fine")) {
+        ServiceCrudResultDto serviceResultDto = basketActions.addItem(itemAdderRequestDto.getItemHash(), itemAdderRequestDto.getItemQuantity());
+        if (!serviceResultDto.message().contains("everything is fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);

@@ -16,16 +16,9 @@ import java.util.function.Function;
 public class BasketRepositoryTest implements BasketRepository {
 
     List<Basket> basketList;
-
     public BasketRepositoryTest(List<Basket> basketList) {
         this.basketList = basketList;
     }
-
-    @Override
-    public Optional<Basket> findFirstByBasketHash(String basketHash) {
-        return basketList.stream().filter(basket -> basket.getBasketHash().equals(basketHash)).findFirst();
-    }
-
     @Override
     public Basket save(Basket basketToSave) {
         this.basketList.add(basketToSave);

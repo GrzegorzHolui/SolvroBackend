@@ -1,11 +1,11 @@
 package com.solvro.feature;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.solvro.solvrobackend.controllers.RequestsDto.AdderDiscountRequestDto;
-import com.solvro.solvrobackend.controllers.RequestsDto.ItemAdderRequestDto;
-import com.solvro.solvrobackend.controllers.RequestsDto.RemoveItemRequestDto;
-import com.solvro.solvrobackend.controllers.RequestsDto.SetterDeliveryTypeRequestDto;
-import com.solvro.solvrobackend.controllers.RequestsDto.SetterQuantityRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.AdderDiscountRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.ItemAdderRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.RemoveItemRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.SetterDeliveryTypeRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.SetterQuantityRequestDto;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,9 +22,9 @@ public interface DefaultMethods {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
     }
 
-    default MvcResult deleteItem(MockMvc mockMvc, RemoveItemRequestDto removeItemRequestDto) throws Exception {
+    default MvcResult deleteItem(MockMvc mockMvc, RemoveItemRequestDto itemToRemove) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders.delete("/deleteItem")
-                .content(new ObjectMapper().writeValueAsString(removeItemRequestDto))
+                .content(new ObjectMapper().writeValueAsString(itemToRemove))
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
     }
 
@@ -46,9 +46,8 @@ public interface DefaultMethods {
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
     }
 
-    default MvcResult getBasketInformation(MockMvc mockMvc, String basketHash) throws Exception {
+    default MvcResult getBasketInformation(MockMvc mockMvc) throws Exception {
         return mockMvc.perform(MockMvcRequestBuilders.get("/getBasketInformation")
-                .content(basketHash)
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
     }
 

@@ -36,13 +36,15 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         DiscountCard discountCard = new DiscountCard("cardHash", "laptop", TypeOfDiscount.CONSTANT, BigDecimal.ONE);
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest(List.of(discountCard));
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
         ServiceSummaryResultDto actualResult = basketActions
-                .getInformationAboutBasket(basket.getBasketHash());
+                .getInformationAboutBasket();
         //then
         ServiceSummaryResultDto expectedResult =
-                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29)));
+                new ServiceSummaryResultDto(List.of("everything is fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29)));
 
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -58,13 +60,16 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         DiscountCard discountCard = new DiscountCard("cardHash", "laptop", TypeOfDiscount.PERCENT, BigDecimal.valueOf(0.1));
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest(List.of(discountCard));
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
+
         //when
         ServiceSummaryResultDto actualResult = basketActions
-                .getInformationAboutBasket(basket.getBasketHash());
+                .getInformationAboutBasket();
         //then
         ServiceSummaryResultDto expectedResult =
-                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29.0)));
+                new ServiceSummaryResultDto(List.of("everything is fine"), new SummaryInfo(BigDecimal.valueOf(10), DeliveryType.COURIER_DELIVERY_INPOST, List.of(discountCard), BigDecimal.valueOf(29.0)));
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 
@@ -79,13 +84,15 @@ class BasketActionsSummaryInfoMakerTest implements SampleRepository {
         DiscountCard discountCard = new DiscountCard("cardHash", "laptop", TypeOfDiscount.PERCENT, BigDecimal.valueOf(0.1));
         DiscountCardRepository discountCardRepository = new DiscountCardRepositoryTest(List.of(discountCard));
         basket.getSummaryInfo().setUsedCard(List.of(discountCard));
-        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository, discountCardRepository);
+
+        BasketActions basketActions = new ServiceConfiguration().basketActionsTest(basketItemRepository, itemRepository
+                , discountCardRepository, basket);
         //when
         ServiceSummaryResultDto actualResult = basketActions
-                .getInformationAboutBasket(basket.getBasketHash());
+                .getInformationAboutBasket();
         //then
         ServiceSummaryResultDto expectedResult =
-                new ServiceSummaryResultDto(List.of("everything_is_fine"), new SummaryInfo(BigDecimal.valueOf(10), null, List.of(discountCard), BigDecimal.valueOf(9.0)));
+                new ServiceSummaryResultDto(List.of("everything is fine"), new SummaryInfo(BigDecimal.valueOf(10), null, List.of(discountCard), BigDecimal.valueOf(9.0)));
         assertThat(actualResult).isEqualTo(expectedResult);
     }
 

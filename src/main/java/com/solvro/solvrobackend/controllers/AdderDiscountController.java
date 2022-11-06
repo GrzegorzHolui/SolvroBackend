@@ -1,8 +1,8 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.AdderDiscountRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.AdderDiscountRequestDto;
 import com.solvro.solvrobackend.dto.ServiceDiscountCardResultDto;
-import com.solvro.solvrobackend.exceptions.ServiceResultException;
+import exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +17,8 @@ public class AdderDiscountController {
 
     @PostMapping("/addDiscount")
     public ResponseEntity<ServiceDiscountCardResultDto> add(@RequestBody AdderDiscountRequestDto adderDiscountRequestDto) throws ServiceResultException {
-        ServiceDiscountCardResultDto serviceResultDto = basketActions.addDiscount(adderDiscountRequestDto.getBasketHash(), adderDiscountRequestDto.getDiscountCardHash());
-        if (!serviceResultDto.message().contains("everything_is_fine")) {
+        ServiceDiscountCardResultDto serviceResultDto = basketActions.addDiscount(adderDiscountRequestDto.getDiscountCardHash());
+        if (!serviceResultDto.message().contains("everything is fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);

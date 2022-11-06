@@ -1,5 +1,4 @@
-package com.solvro.solvrobackend.controllers.RequestsDto;
-
+package com.solvro.solvrobackend.controllers.requestsdto;
 import com.solvro.solvrobackend.model.DeliveryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +14,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SetterDeliveryTypeRequestDto {
-    String basketHash;
     DeliveryType deliveryType;
 }

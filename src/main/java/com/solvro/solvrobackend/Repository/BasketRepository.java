@@ -10,7 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface BasketRepository extends MongoRepository<Basket, UUID> {
-    Optional<Basket> findFirstByBasketHash(String basketHash);
-
     Basket save(Basket basketToSave);
 }

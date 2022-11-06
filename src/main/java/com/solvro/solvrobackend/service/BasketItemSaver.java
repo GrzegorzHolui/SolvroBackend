@@ -6,33 +6,31 @@ import com.solvro.solvrobackend.model.Basket;
 import com.solvro.solvrobackend.model.BasketItem;
 import com.solvro.solvrobackend.model.Item;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @AllArgsConstructor
-@Component
 class BasketItemSaver {
+    Basket basket;
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
 
-    BasketItem saveBasketItem(String basketHash, String itemHash, int itemQuantity) {
-        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
+    BasketItem saveBasketItem(String itemHash, int itemQuantity) {
         Item currentProduct = itemRepository.findFirstByProductHash(itemHash).get();
         BasketItem currentBasketItem = BasketItem.builder()
                 .item(currentProduct)
                 .quantity(itemQuantity)
                 .build();
-        Optional<BasketItem> productInBasketItem = basketAndItemValidator.findFirstProductInBasketItem(currentBasket, currentProduct);
+        Optional<BasketItem> productInBasketItem = basketAndItemValidator.findFirstProductInBasketItem(basket, currentProduct);
         if (productInBasketItem.isEmpty()) {
-            currentBasket.getItemList().add(currentBasketItem);
-            basketItemRepository.save(currentBasket);
+            basket.getItemList().add(currentBasketItem);
+            basketItemRepository.save(basket);
             return currentBasketItem;
         } else {
             int currentQuantity = productInBasketItem.get().getQuantity();
             productInBasketItem.get().setQuantity(currentQuantity + itemQuantity);
-            basketItemRepository.save(currentBasket);
+            basketItemRepository.save(basket);
             return productInBasketItem.get();
         }
     }

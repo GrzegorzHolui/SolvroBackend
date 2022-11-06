@@ -18,7 +18,6 @@ public class DiscountCardRepositoryTest implements DiscountCardRepository {
 
     public DiscountCardRepositoryTest() {
     }
-
     public DiscountCardRepositoryTest(List<DiscountCard> list) {
         this.list = list;
     }

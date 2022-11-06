@@ -1,4 +1,4 @@
-package com.solvro.solvrobackend.controllers.RequestsDto;
+package com.solvro.solvrobackend.controllers.requestsdto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,5 @@ import lombok.ToString;
 @Setter
 @ToString
 public class RemoveItemRequestDto {
-    String basketHash;
     String itemHash;
 }

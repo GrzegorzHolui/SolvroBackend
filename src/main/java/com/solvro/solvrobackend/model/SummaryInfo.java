@@ -23,6 +23,6 @@ public class SummaryInfo {
 
     BigDecimal priceForProducts;
     DeliveryType deliveryType;
-    List<DiscountCard> usedCard = new ArrayList<>();
+    List<DiscountCard> usedCard;
     BigDecimal finalPrice;
 }

@@ -1,8 +1,8 @@
 package com.solvro.solvrobackend.controllers;
 
-import com.solvro.solvrobackend.controllers.RequestsDto.RemoveItemRequestDto;
+import com.solvro.solvrobackend.controllers.requestsdto.RemoveItemRequestDto;
 import com.solvro.solvrobackend.dto.ServiceCrudResultDto;
-import com.solvro.solvrobackend.exceptions.ServiceResultException;
+import exceptions.ServiceResultException;
 import com.solvro.solvrobackend.service.BasketActions;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,10 @@ public class RemoveItemController {
 
     @DeleteMapping("/deleteItem")
     public ResponseEntity<ServiceCrudResultDto> remove(@RequestBody RemoveItemRequestDto removeItemRequestDto) {
-        ServiceCrudResultDto serviceResultDto = basketActions.deleteItem(removeItemRequestDto.getBasketHash(), removeItemRequestDto.getItemHash());
-        if (!serviceResultDto.message().contains("everything_is_fine")) {
+        ServiceCrudResultDto serviceResultDto = basketActions.deleteItem(removeItemRequestDto.getItemHash());
+        if (!serviceResultDto.message().contains("everything is fine")) {
             throw new ServiceResultException(MessagesExceptionMaker.makeMessage(serviceResultDto.message()));
         }
         return ResponseEntity.ok(serviceResultDto);
     }
-
 }

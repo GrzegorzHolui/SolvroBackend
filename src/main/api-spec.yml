@@ -14,7 +14,7 @@ paths:
               $ref: "#/components/schemas/ItemAdderRequestDto"
       responses:
         "200":
-          description: "OK"
+          description: "Item has been added"
           content:
             application/json:
               schema:
@@ -30,7 +30,7 @@ paths:
               $ref: "#/components/schemas/RemoveItemRequestDto"
       responses:
         "200":
-          description: "OK"
+          description: "item has been deleted"
           content:
             application/json:
               schema:
@@ -46,7 +46,7 @@ paths:
               $ref: "#/components/schemas/SetterDeliveryTypeRequestDto"
       responses:
         "200":
-          description: "OK"
+          description: "DeliveryType has been added"
           content:
             application/json:
               schema:
@@ -62,7 +62,7 @@ paths:
               $ref: "#/components/schemas/SetterDiscountRequestDto"
       responses:
         "200":
-          description: "OK"
+          description: "discount has been added"
           content:
             application/json:
               schema:
@@ -79,7 +79,7 @@ paths:
               $ref: "#/components/schemas/SetterQuantityRequestDto"
       responses:
         "200":
-          description: "OK"
+          description: "item has another quantity"
           content:
             application/json:
               schema:
@@ -101,8 +101,6 @@ components:
     ItemAdderRequestDto:
       type: object
       properties:
-        basketHash:
-          type: string
         itemHash:
           type: string
         itemQuantity:
@@ -111,32 +109,24 @@ components:
     RemoveItemRequestDto:
       type: object
       properties:
-        basketHash:
-          type: string
         itemHash:
           type: string
 
     SetterDeliveryTypeRequestDto:
       type: object
       properties:
-        basketHash:
-          type: string
         DeliveryType:
           type: object
 
     SetterDiscountRequestDto:
       type: object
       properties:
-        basketHash:
-          type: string
         discountCardHash:
           type: string
 
     SetterQuantityRequestDto:
       type: object
       properties:
-        basketHash:
-          type: string
         itemHash:
           type: string
         newQuantity:

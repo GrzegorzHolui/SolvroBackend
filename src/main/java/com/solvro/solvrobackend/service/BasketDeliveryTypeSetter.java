@@ -8,14 +8,15 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 class BasketDeliveryTypeSetter {
+
+    Basket basket;
     BasketRepository basketItemRepository;
     ItemRepository itemRepository;
     BasketAndItemValidator basketAndItemValidator;
 
-    public DeliveryType setBasketDeliveryType(String basketHash, DeliveryType deliveryType) {
-        Basket currentBasket = basketItemRepository.findFirstByBasketHash(basketHash).get();
-        currentBasket.getSummaryInfo().setDeliveryType(deliveryType);
-        basketItemRepository.save(currentBasket);
+    public DeliveryType setBasketDeliveryType(DeliveryType deliveryType) {
+        basket.getSummaryInfo().setDeliveryType(deliveryType);
+        basketItemRepository.save(basket);
         return deliveryType;
     }
 }
